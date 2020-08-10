@@ -2,10 +2,15 @@
   <div class="user_box">
     <Card class="user_card">
       <div class="card_bg"></div>
-      <p slot="title" style="color:white">Built for developers</p>
+      <p slot="title" style="color:white">Built for EveryOne</p>
       <div class="content_text">
-        <h1>欢迎进入这里的世界</h1>
+        <h1>分享知识才能走的更远</h1>
         <p>The time that my journey takes is long and the way of it long.I came out on the chariot of the first gleam of light, and pursued my voyage through the wildernesses of worlds leaving my track on many a star and planet.</p>
+        <span class="rectangle"></span>
+        <span class="circle"></span>
+        <svg class="triangle" width="50px" height="50px">
+          <polygon class="triangle-polygon" points="25,5 45,40 5,40" />
+        </svg>
       </div>
       <transition name="component-fade" mode="out-in">
         <component @view="show" :is="view"></component>
@@ -30,13 +35,55 @@ export default {
   },
   methods: {
     show(data) {
-      this.view = data
+      this.view = data;
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+@pink: #fe6cb9;
+@blue: #6cbafe;
+@purple: #9c70ff;
+@size: 50px;
+@border-width: 8px;
+.rectangle,
+.circle,
+.triangle {
+  display: block;
+}
+.triangle {
+  position: absolute;
+  right: -20px;
+  top: 25px;
+  transform: rotate(-45deg);
+}
+.triangle-polygon {
+  fill: transparent;
+  stroke: @blue;
+  stroke-width: @border-width;
+  filter: drop-shadow(3px 3px 20px rgb(@blue));
+}
+.rectangle {
+  width: @size;
+  height: @size;
+  border: @border-width solid @purple;
+  box-shadow: 3px 3px 20px rgb(@purple);
+  position: absolute;
+  bottom: -30px;
+  transform: rotate(20deg);
+}
+.circle {
+  width: @size;
+  height: @size;
+  border-radius: 100%;
+  border: @border-width solid @pink;
+  box-shadow: 3px 3px 20px rgb(@pink);
+  position: absolute;
+  left: -35px;
+  top: -5px;
+}
+
 .component-fade-enter-active,
 .component-fade-leave-active {
   transition: all 0.5s;
@@ -44,7 +91,7 @@ export default {
 .component-fade-enter, .component-fade-leave-to
 /* .component-fade-leave-active for below version 2.1.8 */ {
   opacity: 0;
-  transform: translateX(150px);
+  transform: translateX(-150px);
 }
 @d_flex: {
   display: flex;
