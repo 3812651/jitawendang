@@ -6,16 +6,46 @@
       <div class="right"></div>
       <div class="card_box">
         <ul>
-          <li></li>
-          <li></li>
           <li>
             <svg viewBox="40 74 170 310" width="340" height="620">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li></li>
-          <li></li>
-          <li></li>
+          <li>
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li class="li_active_left">
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li class="li_active_center">
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens1.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li class="li_active_right">
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li class="li_active_rightlast">
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li>
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
+            </svg>
+          </li>
+          <li>
+            <svg viewBox="40 74 170 310" width="340" height="620">
+              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
+            </svg>
+          </li>
         </ul>
       </div>
     </div>
@@ -34,24 +64,50 @@ export default {
   justify-content: center;
   align-items: center;
 };
+.li_active_center {
+  height: 4.4rem !important;
+  width: 213px !important;
+  z-index: 5;
+  margin-left: -22px !important;
+}
 
+.li_active_left {
+  z-index: 4;
+  margin-left: -70px !important;
+  height: 3.7rem !important;
+  width: 175px !important;
+}
+.li_active_right {
+  z-index: 4;
+  margin-left: -22px !important;
+  height: 3.7rem !important;
+  width: 175px !important;
+}
+.li_active_rightlast {
+  z-index: 3;
+  margin-left: -70px !important;
+}
 .training_box_body {
   @flex();
   height: 100%;
   .card_box {
-    height: 3.1rem;
+    height: 4.4rem;
     width: 100%;
     // background-color: pink;
     position: absolute;
-    top: 27%;
+    // left: -0.7rem;
+    top: 50%;
+    transform: translate(0, -50%);
     z-index: 3;
     ul {
       display: flex;
-      height: 100%;
+      align-items: center;
+      position: absolute;
+      left: -85px;
     }
     li {
       width: 170px;
-      height: 100%;
+      height: 3.3rem;
       background-color: #fff;
       margin: 0 6px;
       border-radius: 13px;
