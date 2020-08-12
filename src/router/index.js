@@ -9,7 +9,7 @@ import Training from '../components/Training.vue'
 
 
 const routes = [
-    { path: '/', redirect: '/training', },
+    { path: '/', redirect: '/Layout', },
     { path: '/training', component: Training },
     {
         path: '/Layout',
