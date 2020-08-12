@@ -3,26 +3,7 @@
 
 ## Project setup
 ```
-npm install
+登录页面
 ```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-=======
-# jitawendang
+![image](https://github.com/3812651/jitawendang/tree/master/src/assets/login.png)
 >>>>>>> 8bb9e11c29c629c864f9bba14b8a787c876a3410
