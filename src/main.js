@@ -7,7 +7,10 @@ import router from './router';
 Vue.use(ViewUI);
 Vue.config.productionTip = false
 
+let docWidth = document.documentElement.clientWidth
+document.documentElement.style.fontSize = docWidth / 1536 * 100 + 'px'
+
 new Vue({
-  router ,
-  render: h => h(App),
+    router,
+    render: h => h(App),
 }).$mount('#app')

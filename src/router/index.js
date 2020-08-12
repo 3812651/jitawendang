@@ -5,21 +5,25 @@ Vue.use(VueRouter)
 
 import Layout from '../components/Login/Layout.vue'
 import Login from '../components/Login/Login.vue'
+import Training from '../components/Training.vue'
 
 
 const routes = [
-  { path: '/', redirect: '/Layout', },
-  {
-    path: '/Layout', component: Layout,childrenL:[
-      {path:'Login',component:Login}
-    ]
-    
-  }
+    { path: '/', redirect: '/training', },
+    { path: '/training', component: Training },
+    {
+        path: '/Layout',
+        component: Layout,
+        childrenL: [
+            { path: 'Login', component: Login }
+        ]
+
+    }
 
 ]
 
 const router = new VueRouter({
-  routes
+    routes
 })
 
 export default router

@@ -1,6 +1,6 @@
 <template>
   <Card :bordered="false" class="login_card">
-    <p slot="title">Login</p>
+    <p slot="title">Sign in</p>
     <Form ref="formInline" :model="formInline" :rules="ruleInline" class="login_form">
       <FormItem prop="user">
         <Input type="text" v-model="formInline.user" placeholder="Username">
@@ -80,30 +80,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-  will-change: transform;
-  transition: all 500ms;
-  position: absolute;
-}
-.slide-right-enter {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-}
-.slide-right-leave-active {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-enter {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-leave-active {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
-}
+
 @d_flex: {
   display: flex;
   justify-content: center;
@@ -132,10 +109,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+/deep/.ivu-card-head{
+  border-bottom:none ;
+}
 .login_card {
   p {
     text-align: center;
-    color: rgb(101, 119, 147, 1);
+    color: #29282A;
     font-size: 18px;
     a {
       cursor: pointer;

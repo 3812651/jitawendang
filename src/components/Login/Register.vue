@@ -86,10 +86,13 @@ export default {
   justify-content: center;
   align-items: center;
 };
+/deep/.ivu-card-head{
+  border-bottom:none ;
+}
 .login_card {
   p {
     text-align: center;
-    color: rgb(101, 119, 147, 1);
+    color: #29282A;
     font-size: 18px;
     a {
       cursor: pointer;
