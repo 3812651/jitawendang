@@ -16,22 +16,22 @@
               <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li class="li_active_left">
+          <li>
             <svg viewBox="40 74 170 310" width="340" height="620">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li class="li_active_center">
+          <li id="li_active_center">
             <svg viewBox="40 74 170 310" width="340" height="620">
               <image xlink:href="../assets/sapiens1.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li class="li_active_right">
+          <li>
             <svg viewBox="40 74 170 310" width="340" height="620">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li class="li_active_rightlast">
+          <li>
             <svg viewBox="40 74 170 310" width="340" height="620">
               <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
             </svg>
@@ -52,9 +52,25 @@
   </div>
 </template>
 <script>
+import $ from "jquery";
+$(() => {
+  $("li").click(function () {
+    $(this).addClass("li_active_center").siblings().removeClass("li_active_center");
+    $(this).prev().addClass("li_active_left").siblings().removeClass("li_active_left");
+    $(this).next().addClass("li_active_right").siblings().removeClass("li_active_right");
+    $('li.li_active_right').next().addClass("li_active_rightlast").siblings().removeClass("li_active_rightlast");
+  });
+});
 export default {
   data() {
     return {};
+  },
+  methods: {},
+  mounted() {
+    $('#li_active_center').addClass("li_active_center")
+    $('#li_active_center').prev().addClass("li_active_left");
+    $('#li_active_center').next().addClass("li_active_right");
+    $('li.li_active_right').next().addClass("li_active_rightlast");
   },
 };
 </script>
