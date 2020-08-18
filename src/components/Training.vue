@@ -6,43 +6,43 @@
       <div class="right"></div>
       <div class="card_box">
         <ul>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="1">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="2">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="3">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li id="li_active_center">
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="4">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens1.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="5">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="6">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="7">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
-          <li>
-            <svg viewBox="40 74 170 310" width="340" height="620">
+          <li id="8">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
@@ -55,10 +55,14 @@
 import $ from "jquery";
 $(() => {
   $("li").click(function () {
+    let id = parseInt($(this).attr("id"));
     $(this).addClass("li_active_center").siblings().removeClass("li_active_center");
     $(this).prev().addClass("li_active_left").siblings().removeClass("li_active_left");
     $(this).next().addClass("li_active_right").siblings().removeClass("li_active_right");
-    $('li.li_active_right').next().addClass("li_active_rightlast").siblings().removeClass("li_active_rightlast");
+    
+    let left_overflow_px = (id -4)*170 + 85 
+    console.log(`-${left_overflow_px}px`);
+    $("ul").css('left',`-${left_overflow_px}px`)
   });
 });
 export default {
@@ -67,10 +71,9 @@ export default {
   },
   methods: {},
   mounted() {
-    $('#li_active_center').addClass("li_active_center")
-    $('#li_active_center').prev().addClass("li_active_left");
-    $('#li_active_center').next().addClass("li_active_right");
-    $('li.li_active_right').next().addClass("li_active_rightlast");
+    $('#4').addClass("li_active_center")
+    $('#4').prev().addClass("li_active_left");
+    $('#4').next().addClass("li_active_right");
   },
 };
 </script>
@@ -82,27 +85,25 @@ export default {
 };
 .li_active_center {
   height: 4.4rem !important;
-  width: 213px !important;
+  width: 2.15rem !important;
   z-index: 5;
   margin-left: -22px !important;
+  margin-right: -22px !important;
 }
 
 .li_active_left {
   z-index: 4;
   margin-left: -70px !important;
   height: 3.7rem !important;
-  width: 175px !important;
+  width: 1.75rem !important;
 }
 .li_active_right {
   z-index: 4;
-  margin-left: -22px !important;
   height: 3.7rem !important;
-  width: 175px !important;
+  width: 1.75rem !important;
+  margin-right: -70px !important;
 }
-.li_active_rightlast {
-  z-index: 3;
-  margin-left: -70px !important;
-}
+
 .training_box_body {
   @flex();
   height: 100%;
@@ -122,12 +123,15 @@ export default {
       left: -85px;
     }
     li {
-      width: 170px;
+      width: 1.7rem;
       height: 3.3rem;
       background-color: #fff;
       margin: 0 6px;
       border-radius: 13px;
       box-shadow: 0px 2px 45px #c9ccd5;
+      svg{
+        pointer-events: none;
+      }
     }
   }
   .training_box {
