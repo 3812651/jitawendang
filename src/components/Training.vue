@@ -55,14 +55,51 @@
 import $ from "jquery";
 $(() => {
   $("li").click(function () {
-    let id = parseInt($(this).attr("id"));
-    $(this).addClass("li_active_center").siblings().removeClass("li_active_center");
-    $(this).prev().addClass("li_active_left").siblings().removeClass("li_active_left");
-    $(this).next().addClass("li_active_right").siblings().removeClass("li_active_right");
-    
-    let left_overflow_px = (id -4)*170 + 85 
-    console.log(`-${left_overflow_px}px`);
-    $("ul").css('left',`-${left_overflow_px}px`)
+    let current_id = parseInt($(this).attr("id")), //当前点击li的id
+      history_id = parseInt($(".li_active_center").attr("id")); //上一个拥有居中放大class的li的id
+    //如果选中的li不是上一个居中的li，则把立即把上一个居中及左右li的样式消除
+    if (current_id != history_id) {
+      console.log($(`#${history_id}`));
+      $(`#${history_id}`).removeClass("li_active_center");
+      $(`#${history_id}`).prev().removeClass("li_active_left");
+      $(`#${history_id}`).next().removeClass("li_active_right");
+    }
+    // 给选中li及左右li加上class
+    setTimeout(() => {
+      $(this)
+        .addClass("li_active_center")
+        .siblings()
+        .removeClass("li_active_center");
+      $(this)
+        .prev()
+        .addClass("li_active_left")
+        .siblings()
+        .removeClass("li_active_left");
+      $(this)
+        .next()
+        .addClass("li_active_right")
+        .siblings()
+        .removeClass("li_active_right");
+    }, 1000);
+    //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
+    if (current_id == 1) {
+      $(this).removeClass("li_active_left");
+    }
+    if (current_id == 8) {
+      $(this).removeClass("li_active_right");
+    }
+    setTimeout(() => {
+      //为了保持选中的li居中，让ul的位置动态的变化
+      if (current_id > 3) {
+        // 如果选中的li是第四个及右边，则ul整体往左移动
+        let left_overflow_px = -[(current_id - 4) * 170 + 85];
+        $("ul").css({"left":`${left_overflow_px}px`,"transition":"all .4s ease"});
+      } else {
+        //ul在第四个li居中的时候本来就设置left为-85px，如果选中的li的id是前三个，则li整体往右移动
+        let left_overflow_px = (4 - current_id) * 170 - 85;
+        $("ul").css({"left":`${left_overflow_px}px`,"transition":"all .4s ease"});
+      }
+    }, 700);
   });
 });
 export default {
@@ -71,9 +108,9 @@ export default {
   },
   methods: {},
   mounted() {
-    $('#4').addClass("li_active_center")
-    $('#4').prev().addClass("li_active_left");
-    $('#4').next().addClass("li_active_right");
+    $("#4").addClass("li_active_center");
+    $("#4").prev().addClass("li_active_left");
+    $("#4").next().addClass("li_active_right");
   },
 };
 </script>
@@ -90,7 +127,14 @@ export default {
   margin-left: -22px !important;
   margin-right: -22px !important;
 }
-
+.card_box {
+  li {
+    transition: all .5s ease;
+  }
+  // li:hover {
+  //   transform: scale(1.1, 1.1);
+  // }
+}
 .li_active_left {
   z-index: 4;
   margin-left: -70px !important;
@@ -120,6 +164,7 @@ export default {
       display: flex;
       align-items: center;
       position: absolute;
+      height: 4.4rem;
       left: -85px;
     }
     li {
@@ -129,7 +174,7 @@ export default {
       margin: 0 6px;
       border-radius: 13px;
       box-shadow: 0px 2px 45px #c9ccd5;
-      svg{
+      svg {
         pointer-events: none;
       }
     }
