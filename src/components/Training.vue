@@ -46,6 +46,11 @@
               <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
             </svg>
           </li>
+          <li id="9">
+            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
+              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
+            </svg>
+          </li>
         </ul>
       </div>
     </div>
@@ -80,7 +85,7 @@ $(() => {
         .addClass("li_active_right")
         .siblings()
         .removeClass("li_active_right");
-    }, 1000);
+    }, 500);
     //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
     if (current_id == 1) {
       $(this).removeClass("li_active_left");
@@ -90,16 +95,22 @@ $(() => {
     }
     setTimeout(() => {
       //为了保持选中的li居中，让ul的位置动态的变化
-      if (current_id > 3) {
-        // 如果选中的li是第四个及右边，则ul整体往左移动
-        let left_overflow_px = -[(current_id - 4) * 170 + 85];
-        $("ul").css({"left":`${left_overflow_px}px`,"transition":"all .4s ease"});
+      if (current_id > 4) {
+        // 如果选中的li是第五个及右边，则ul整体往左移动
+        let left_overflow_px = -[(current_id - 5) * 170 + 275]/100;
+        $("ul").css({
+          left: `${left_overflow_px}rem`,
+          transition: "all .4s ease",
+        });
       } else {
-        //ul在第四个li居中的时候本来就设置left为-85px，如果选中的li的id是前三个，则li整体往右移动
-        let left_overflow_px = (4 - current_id) * 170 - 85;
-        $("ul").css({"left":`${left_overflow_px}px`,"transition":"all .4s ease"});
+        //ul在第五个li居中的时候本来就设置left为-2.75rem，如果选中的li的id是前四个，则li整体往右移动
+        let left_overflow_px = [(5 - current_id) * 170 - 275]/100;
+        $("ul").css({
+          left: `${left_overflow_px}rem`,
+          transition: "all .4s ease",
+        });
       }
-    }, 700);
+    }, 400);
   });
 });
 export default {
@@ -108,9 +119,9 @@ export default {
   },
   methods: {},
   mounted() {
-    $("#4").addClass("li_active_center");
-    $("#4").prev().addClass("li_active_left");
-    $("#4").next().addClass("li_active_right");
+    $("#5").addClass("li_active_center");
+    $("#5").prev().addClass("li_active_left");
+    $("#5").next().addClass("li_active_right");
   },
 };
 </script>
@@ -126,6 +137,24 @@ export default {
   z-index: 5;
   margin-left: -22px !important;
   margin-right: -22px !important;
+  animation: select_dropdown 0.5s ease-in;
+}
+@keyframes select_dropdown {
+  0% {
+    transform: scale(1, 0);
+  }
+  25% {
+    transform: scale(1, 1.1);
+  }
+  50% {
+    transform: scale(1, 0.95);
+  }
+  75% {
+    transform: scale(1, 1.05);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }
 .card_box {
   li {
@@ -154,7 +183,6 @@ export default {
   .card_box {
     height: 4.4rem;
     width: 100%;
-    // background-color: pink;
     position: absolute;
     // left: -0.7rem;
     top: 50%;
@@ -165,7 +193,7 @@ export default {
       align-items: center;
       position: absolute;
       height: 4.4rem;
-      left: -85px;
+      left: -2.75rem;
     }
     li {
       width: 1.7rem;
