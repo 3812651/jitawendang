@@ -11,7 +11,7 @@ export default {
     return {
       transitionName: "",
     };
-  }
+  },
 };
 </script>
 
@@ -37,11 +37,5 @@ ul {
 }
 a {
   text-decoration: none;
-}
-body {
-  background-image: url("./assets/back.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
 }
 </style>

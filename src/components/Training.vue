@@ -1,5 +1,6 @@
 <template>
   <div class="training_box_body">
+    <v-header></v-header>
     <div class="training_box">
       <div class="left"></div>
       <div class="center"></div>
@@ -54,14 +55,24 @@
         </ul>
       </div>
     </div>
+    <div class="change_tooltip">
+      <div v-for="(item,index) in tooltip_list" :key="item.name"  @click="tooltip_click(item,index)">
+        <div class="dashed_box" :class="{isActive:checkIndex==index}">
+          <Icon type="md-basketball" />
+        </div>
+        <p :class="{isActive_text:checkIndex==index}">{{item.name}}</p>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import $ from "jquery";
-$(() => {
-  $("li").click(function () {
+$(function () {
+  function li_click() {
     let current_id = parseInt($(this).attr("id")), //当前点击li的id
-      history_id = parseInt($(".li_active_center").attr("id")); //上一个拥有居中放大class的li的id
+      //上一个拥有居中放大class的li的id
+      history_id = parseInt($(".li_active_center").attr("id"));
+
     //如果选中的li不是上一个居中的li，则把立即把上一个居中及左右li的样式消除
     if (current_id != history_id) {
       console.log($(`#${history_id}`));
@@ -69,6 +80,34 @@ $(() => {
       $(`#${history_id}`).prev().removeClass("li_active_left");
       $(`#${history_id}`).next().removeClass("li_active_right");
     }
+
+    //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
+    if (current_id == 1) {
+      $(this).removeClass("li_active_left");
+    }
+    if (current_id == 9) {
+      $(this).removeClass("li_active_right");
+    }
+    setTimeout(() => {
+      //为了保持选中的li居中，让ul的位置动态的变化
+      if (current_id > 4) {
+        // 如果选中的li是第五个及右边，则ul整体往左移动
+        let left_overflow_px = -[(current_id - 5) * 182] / 100;
+        let a = `translateX(${left_overflow_px}rem)`;
+        $(".card_box>ul").css({
+          transform: a,
+          transition: "all .4s ease",
+        });
+      } else {
+        //如果选中的li的id是前四个，则li整体往右移动
+        let left_overflow_px = [(5 - current_id) * 182] / 100;
+        let b = `translateX(${left_overflow_px}rem)`;
+        $(".card_box>ul").css({
+          transform: b,
+          transition: "all .4s ease",
+        });
+      }
+    }, 400);
     // 给选中li及左右li加上class
     setTimeout(() => {
       $(this)
@@ -85,39 +124,25 @@ $(() => {
         .addClass("li_active_right")
         .siblings()
         .removeClass("li_active_right");
-    }, 500);
-    //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
-    if (current_id == 1) {
-      $(this).removeClass("li_active_left");
-    }
-    if (current_id == 8) {
-      $(this).removeClass("li_active_right");
-    }
-    setTimeout(() => {
-      //为了保持选中的li居中，让ul的位置动态的变化
-      if (current_id > 4) {
-        // 如果选中的li是第五个及右边，则ul整体往左移动
-        let left_overflow_px = -[(current_id - 5) * 170 + 275]/100;
-        $("ul").css({
-          left: `${left_overflow_px}rem`,
-          transition: "all .4s ease",
-        });
-      } else {
-        //ul在第五个li居中的时候本来就设置left为-2.75rem，如果选中的li的id是前四个，则li整体往右移动
-        let left_overflow_px = [(5 - current_id) * 170 - 275]/100;
-        $("ul").css({
-          left: `${left_overflow_px}rem`,
-          transition: "all .4s ease",
-        });
-      }
-    }, 400);
-  });
+    }, 800);
+  }
+  //防抖
+  require("../js/debounce.js").debounce(li_click);
+  //li点击事件
+  $(".card_box>ul>li").click(li_click);
 });
 export default {
   data() {
-    return {};
+    return {
+      checkIndex: 0,
+      tooltip_list: [{ name: "Colorful" }, { name: "Outline" }],
+    };
   },
-  methods: {},
+  methods: {
+    tooltip_click(item, index) {
+      this.checkIndex = index;
+    },
+  },
   mounted() {
     $("#5").addClass("li_active_center");
     $("#5").prev().addClass("li_active_left");
@@ -137,14 +162,14 @@ export default {
   z-index: 5;
   margin-left: -22px !important;
   margin-right: -22px !important;
-  animation: select_dropdown 0.5s ease-in;
+  animation: select_dropdown 1.3s linear;
 }
 @keyframes select_dropdown {
   0% {
-    transform: scale(1, 0);
+    transform: scale(1, 0.9);
   }
   25% {
-    transform: scale(1, 1.1);
+    transform: scale(1, 1.07);
   }
   50% {
     transform: scale(1, 0.95);
@@ -155,14 +180,6 @@ export default {
   100% {
     transform: scale(1, 1);
   }
-}
-.card_box {
-  li {
-    transition: all .5s ease;
-  }
-  // li:hover {
-  //   transform: scale(1.1, 1.1);
-  // }
 }
 .li_active_left {
   z-index: 4;
@@ -176,10 +193,52 @@ export default {
   width: 1.75rem !important;
   margin-right: -70px !important;
 }
-
+.change_tooltip {
+  z-index: 999;
+  position: absolute;
+  top: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 1.7rem;
+  height: 0.8rem;
+  padding: 0.1rem 0.2rem;
+  background-color: #fff;
+  color: #b7b8bf;
+  border-radius: 0.5rem;
+  text-align: center;
+  & > div {
+    cursor: pointer;
+  }
+  .dashed_box {
+    width: 0.5rem;
+    height: 0.5rem;
+    border: 2px dashed #dddde4;
+    border-radius: 50%;
+    @flex();
+  }
+}
+.isActive {
+  border: 5px solid #ff2300 !important;
+}
+.isActive_text{
+  color: #535267;
+}
+.card_box {
+  li {
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  // li:hover {
+  //   transform: scale(1.1, 1.1);
+  // }
+}
 .training_box_body {
   @flex();
+  flex-direction: column;
   height: 100%;
+  background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
   .card_box {
     height: 4.4rem;
     width: 100%;
@@ -188,12 +247,13 @@ export default {
     top: 50%;
     transform: translate(0, -50%);
     z-index: 3;
+    display: flex;
+    justify-content: center;
     ul {
       display: flex;
       align-items: center;
-      position: absolute;
+      // position: absolute;
       height: 4.4rem;
-      left: -2.75rem;
     }
     li {
       width: 1.7rem;
@@ -201,43 +261,45 @@ export default {
       background-color: #fff;
       margin: 0 6px;
       border-radius: 13px;
-      box-shadow: 0px 2px 45px #c9ccd5;
+      box-shadow: 0px 2px 7px #c9ccd5;
       svg {
         pointer-events: none;
       }
     }
   }
   .training_box {
-    background-color: #e6e9f0;
     position: relative;
-    width: 9.5rem;
-    height: 6.2rem;
-    border-radius: 8px;
+    width: 100%;
+    height: (100vh - 0.6rem);
+    margin-top: 0.6rem;
     overflow: hidden;
+    // background-color: #e6e9f0;
     .center {
-      height: 100%;
-      width: 33%;
-      position: absolute;
-      left: 33.3%;
-      box-shadow: 0px 2px 45px #c9ccd5;
-      background-color: #e6e9f0;
       z-index: 1;
+      height: 100%;
+      width: 3.2rem;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      // box-shadow: 0px 2px 45px #c9ccd5;
+      // background-color: #e6e9f0;
     }
     .left {
-      height: 100%;
-      width: 33%;
-      box-shadow: 0px 2px 45px #c9ccd5;
-      background-color: #e6e9f0;
       position: absolute;
-      left: 16.653%;
+      left: 50%;
+      transform: translateX(-100%);
+      height: 100%;
+      width: 3.2rem;
+      // box-shadow: 0px 2px 45px #c9ccd5;
+      // background-color: #e6e9f0;
     }
     .right {
-      height: 100%;
-      width: 33%;
-      box-shadow: 0px 2px 45px #c9ccd5;
-      background-color: #e6e9f0;
       position: absolute;
-      right: 16.653%;
+      left: 50%;
+      height: 100%;
+      width: 3.2rem;
+      // box-shadow: 0px 2px 45px #c9ccd5;
+      // background-color: #e6e9f0;
     }
   }
 }

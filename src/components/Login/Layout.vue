@@ -1,5 +1,6 @@
 <template>
-  <div class="user_box">
+  <div id="layout">
+    <div class="user_box">
     <Card class="user_card">
       <div class="card_bg"></div>
       <p slot="title" style="color:white">Built for EveryOne</p>
@@ -16,6 +17,7 @@
         <component @view="show" :is="view"></component>
       </transition>
     </Card>
+  </div>
   </div>
 </template>
 
@@ -115,7 +117,7 @@ export default {
     bottom: -20px;
     top: -20px;
     filter: blur(10px);
-    background-image: url("../..//assets/back.jpg");
+    background-image: url("../../assets/back.jpg");
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -131,6 +133,7 @@ export default {
     height: 420px;
     border: none;
     position: relative;
+    z-index: 999;
     box-shadow: 3px 4px 15px rgb(black, 0.7);
     /deep/ .ivu-card-body {
       display: flex;
@@ -140,5 +143,11 @@ export default {
       }
     }
   }
+}
+#layout {
+  background-image: url("../../assets/back.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
 }
 </style>
