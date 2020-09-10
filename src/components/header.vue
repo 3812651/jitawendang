@@ -18,17 +18,22 @@
 export default {
   data() {
     return {
-      checkIndex: 1,
+      checkIndex: this.$store.state.checkIndex,
       nav_list: [
         { name: "社区", url: "/Community" },
         { name: "训练", url: "/Training" },
+        { name: "文档", url: "/Document" },
         { name: "我的" },
       ],
     };
   },
   methods: {
     nav_change(item, index) {
-      this.checkIndex = index;
+      // console.log(this.$store);
+      this.$store.commit({
+        type: "changeIndex",
+        checkIndex: index,
+      });
       this.$router.push({ path: item.url });
     },
   },

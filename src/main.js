@@ -5,6 +5,8 @@ import 'view-design/dist/styles/iview.css';
 import router from './router';
 import header from './components/header.vue';
 import VueParticles from 'vue-particles'
+import store from './store'
+import '@/icons'
 // import $ from 'jquery'
 // Vue.prototype.$ = $;
 Vue.use(ViewUI);
@@ -17,5 +19,6 @@ Vue.component('v-header', header)
 
 new Vue({
     router,
+    store,
     render: h => h(App),
 }).$mount('#app')

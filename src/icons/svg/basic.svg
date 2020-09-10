@@ -1,0 +1,22 @@
+<svg width="150" height="150" viewBox="0 0 38 38"
+    xmlns="http://www.w3.org/2000/svg" stroke="#E9BD6C">
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(1 1)" stroke-width="1">
+            <g>
+                <circle stroke-opacity=".5" cx="18" cy="18" r="18"/>
+                <polygon fill="#ff9900" stroke="#47C2FD" points="18 5 ,23 8 ,23 14,18 17,13 14,13 8" stroke-width=".5">
+                    <animate attributeName="fill-opacity" from="1" to="2" begin="0s" dur="2.8s" values="1;0;0" calcMode="linear" repeatCount="indefinite" />
+                </polygon>
+                <polygon fill="#ff9900" stroke="#47C2FD" points="25 17,30 20, 30 26,25 29,20 26,20 20" stroke-width=".5">
+                    <animate attributeName="fill-opacity" from="1" to="2" begin="0s" dur="2.8s" values="0;1;0" calcMode="linear" repeatCount="indefinite" />
+                </polygon>
+                <polygon fill="#ff9900" stroke="#47C2FD" points="11 17,16 20,16 26,11 29,6 26,6 20" stroke-width=".5" >
+                    <animate attributeName="fill-opacity" from="1" to="2" begin="1s" dur="2.8s" values="0;0;1" calcMode="linear" repeatCount="indefinite" />
+                </polygon>
+            </g>
+            <path d="M36 18c0-9.94-8.06-18-18-18">
+                <animateTransform  attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="2.4s" repeatCount="indefinite"/>
+            </path>
+        </g>
+    </g>
+</svg>

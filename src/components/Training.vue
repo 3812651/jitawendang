@@ -56,81 +56,18 @@
       </div>
     </div>
     <div class="change_tooltip">
-      <div v-for="(item,index) in tooltip_list" :key="item.name"  @click="tooltip_click(item,index)">
+      <div v-for="(item,index) in tooltip_list" :key="item.name" @click="tooltip_click(item,index)">
         <div class="dashed_box" :class="{isActive:checkIndex==index}">
           <Icon type="md-basketball" />
         </div>
-        <p :class="{isActive_text:checkIndex==index}">{{item.name}}</p>
+        <p>{{item.name}}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
 import $ from "jquery";
-$(function () {
-  function li_click() {
-    let current_id = parseInt($(this).attr("id")), //当前点击li的id
-      //上一个拥有居中放大class的li的id
-      history_id = parseInt($(".li_active_center").attr("id"));
 
-    //如果选中的li不是上一个居中的li，则把立即把上一个居中及左右li的样式消除
-    if (current_id != history_id) {
-      console.log($(`#${history_id}`));
-      $(`#${history_id}`).removeClass("li_active_center");
-      $(`#${history_id}`).prev().removeClass("li_active_left");
-      $(`#${history_id}`).next().removeClass("li_active_right");
-    }
-
-    //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
-    if (current_id == 1) {
-      $(this).removeClass("li_active_left");
-    }
-    if (current_id == 9) {
-      $(this).removeClass("li_active_right");
-    }
-    setTimeout(() => {
-      //为了保持选中的li居中，让ul的位置动态的变化
-      if (current_id > 4) {
-        // 如果选中的li是第五个及右边，则ul整体往左移动
-        let left_overflow_px = -[(current_id - 5) * 182] / 100;
-        let a = `translateX(${left_overflow_px}rem)`;
-        $(".card_box>ul").css({
-          transform: a,
-          transition: "all .4s ease",
-        });
-      } else {
-        //如果选中的li的id是前四个，则li整体往右移动
-        let left_overflow_px = [(5 - current_id) * 182] / 100;
-        let b = `translateX(${left_overflow_px}rem)`;
-        $(".card_box>ul").css({
-          transform: b,
-          transition: "all .4s ease",
-        });
-      }
-    }, 400);
-    // 给选中li及左右li加上class
-    setTimeout(() => {
-      $(this)
-        .addClass("li_active_center")
-        .siblings()
-        .removeClass("li_active_center");
-      $(this)
-        .prev()
-        .addClass("li_active_left")
-        .siblings()
-        .removeClass("li_active_left");
-      $(this)
-        .next()
-        .addClass("li_active_right")
-        .siblings()
-        .removeClass("li_active_right");
-    }, 800);
-  }
-  //防抖
-  require("../js/debounce.js").debounce(li_click);
-  //li点击事件
-  $(".card_box>ul>li").click(li_click);
-});
 export default {
   data() {
     return {
@@ -147,6 +84,70 @@ export default {
     $("#5").addClass("li_active_center");
     $("#5").prev().addClass("li_active_left");
     $("#5").next().addClass("li_active_right");
+    $(function () {
+      function li_click() {
+        let current_id = parseInt($(this).attr("id")), //当前点击li的id
+          //上一个拥有居中放大class的li的id
+          history_id = parseInt($(".li_active_center").attr("id"));
+
+        //如果选中的li不是上一个居中的li，则把立即把上一个居中及左右li的样式消除
+        if (current_id != history_id) {
+          console.log($(`#${history_id}`));
+          $(`#${history_id}`).removeClass("li_active_center");
+          $(`#${history_id}`).prev().removeClass("li_active_left");
+          $(`#${history_id}`).next().removeClass("li_active_right");
+        }
+
+        //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
+        if (current_id == 1) {
+          $(this).removeClass("li_active_left");
+        }
+        if (current_id == 9) {
+          $(this).removeClass("li_active_right");
+        }
+        setTimeout(() => {
+          //为了保持选中的li居中，让ul的位置动态的变化
+          if (current_id > 4) {
+            // 如果选中的li是第五个及右边，则ul整体往左移动
+            let left_overflow_px = -[(current_id - 5) * 182] / 100;
+            let a = `translateX(${left_overflow_px}rem)`;
+            $(".card_box>ul").css({
+              transform: a,
+              transition: "all .5s ease",
+            });
+          } else {
+            //如果选中的li的id是前四个，则li整体往右移动
+            let left_overflow_px = [(5 - current_id) * 182] / 100;
+            let b = `translateX(${left_overflow_px}rem)`;
+            $(".card_box>ul").css({
+              transform: b,
+              transition: "all .5s ease",
+            });
+          }
+        }, 400);
+        // 给选中li及左右li加上class
+        setTimeout(() => {
+          $(this)
+            .addClass("li_active_center")
+            .siblings()
+            .removeClass("li_active_center");
+          $(this)
+            .prev()
+            .addClass("li_active_left")
+            .siblings()
+            .removeClass("li_active_left");
+          $(this)
+            .next()
+            .addClass("li_active_right")
+            .siblings()
+            .removeClass("li_active_right");
+        }, 900);
+      }
+      //防抖
+      require("../js/debounce.js").debounce(li_click);
+      //li点击事件
+      $(".card_box>ul>li").click(li_click);
+    });
   },
 };
 </script>
@@ -219,16 +220,72 @@ export default {
     @flex();
   }
 }
+
 .isActive {
+  position: relative;
+  animation: dashed-box 0.5s linear;
   border: 5px solid #ff2300 !important;
+  & ~ p {
+    color: #535267;
+  }
 }
-.isActive_text{
-  color: #535267;
+@keyframes dashed-box {
+  0% {
+    transform: scale(0.7);
+    transform-origin: center;
+  }
+  50% {
+    transform: scale(1.1);
+    transform-origin: center;
+  }
+  75% {
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: center;
+  }
 }
+.isActive:before,
+.isActive:after {
+  position: absolute;
+  background: #dbdcdd;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 2px solid #d3d4d9;
+  content: "";
+  display: block;
+  border-radius: 50%;
+  opacity: 0;
+}
+.isActive:after {
+  border: 5px solid #d3d4d9;
+}
+.isActive:before {
+  animation: wave-animate 1s ease-in-out;
+}
+
+.isActive:after {
+  animation: wave-animate 1s 0.2s ease-in-out;
+}
+@keyframes wave-animate {
+  0% {
+    transform: scale(0);
+    opacity: 0.7;
+    transform-origin: center;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+    transform-origin: center;
+  }
+}
+
 .card_box {
   li {
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
   }
   // li:hover {
   //   transform: scale(1.1, 1.1);
