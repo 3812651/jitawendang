@@ -1,23 +1,26 @@
 <template>
   <div id="layout">
     <div class="user_box">
-    <Card class="user_card">
-      <div class="card_bg"></div>
-      <p slot="title" style="color:white">Built for EveryOne</p>
-      <div class="content_text">
-        <h1>分享知识才能走的更远</h1>
-        <p>The time that my journey takes is long and the way of it long.I came out on the chariot of the first gleam of light, and pursued my voyage through the wildernesses of worlds leaving my track on many a star and planet.</p>
-        <span class="rectangle"></span>
-        <span class="circle"></span>
-        <svg class="triangle" width="50px" height="50px">
-          <polygon class="triangle-polygon" points="25,5 45,40 5,40" />
-        </svg>
-      </div>
-      <transition name="component-fade" mode="out-in">
-        <component @view="show" :is="view"></component>
-      </transition>
-    </Card>
-  </div>
+      <Card class="user_card">
+        <div class="card_bg"></div>
+        <div slot="title" class="title">
+          <span>Built for EveryOne</span>
+          <router-link to="/Training">返回首页</router-link>
+        </div>
+        <div class="content_text">
+          <h1>分享知识才能走的更远</h1>
+          <p>The time that my journey takes is long and the way of it long.I came out on the chariot of the first gleam of light, and pursued my voyage through the wildernesses of worlds leaving my track on many a star and planet.</p>
+          <span class="rectangle"></span>
+          <span class="circle"></span>
+          <svg class="triangle" width="50px" height="50px">
+            <polygon class="triangle-polygon" points="25,5 45,40 5,40" />
+          </svg>
+        </div>
+        <transition name="component-fade" mode="out-in">
+          <component @view="show" :is="view"></component>
+        </transition>
+      </Card>
+    </div>
   </div>
 </template>
 
@@ -109,6 +112,7 @@ export default {
   top: 0;
   z-index: -2;
   overflow: hidden;
+
   &:after {
     content: "";
     position: absolute;
@@ -117,7 +121,8 @@ export default {
     bottom: -20px;
     top: -20px;
     filter: blur(10px);
-    background-image: url("../../assets/back.jpg");
+    // background-image: url("../../assets/loginback.jpg");
+    background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -142,10 +147,30 @@ export default {
         width: 50%;
       }
     }
+    .title {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.4rem;
+      color: #fff;
+      a {
+        color: #b5b7bb;
+        transition: all 0.3s ease-in-out;
+      }
+      a:hover{
+        color: #fff;
+      }
+      span {
+        color: #fff;
+      }
+      span {
+        font-size: 0.14rem;
+      }
+    }
   }
 }
 #layout {
-  background-image: url("../../assets/back.jpg");
+  // background-image: url("../../assets/back.png");
+  background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
