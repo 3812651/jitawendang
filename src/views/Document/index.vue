@@ -10,38 +10,61 @@
             :class="{isActive:checkIndex==index}"
             @click="nav_change(item,index)"
           >
-            <svg-icon iconClass="basic" className="icon_basic" v-if="checkIndex==index" />
-            <svg-icon iconClass="basic_default" className="icon_basic" v-else />
+            <Tooltip :content="item.name" placement="left">
+              <svg-icon :iconClass="checkIndex==index?item.activeIcon:item.defaultIcon" />
+            </Tooltip>
           </li>
         </ul>
       </div>
-      <div class="content"></div>
+      <div class="content">
+        <transition mode="out-in">
+          <component :is="view"></component>
+        </transition>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import basic from "./basic/basicMenu.vue";
+import advance from "./advance.vue";
 export default {
+  components: {
+    basic,
+    advance,
+  },
   data() {
     return {
       checkIndex: 0,
+      view: "basic",
       nav_list: [
-        { name: "基础乐理", src: "../assets/document/basic.svg" },
-        { name: "进阶乐理", src: "../assets/document/basic.svg" },
+        { name: "基础乐理", defaultIcon: "basic_default", activeIcon: "basic" },
+        {
+          name: "进阶乐理",
+          defaultIcon: "advance_default",
+          activeIcon: "advance",
+        },
       ],
     };
   },
   methods: {
     nav_change(item, index) {
-        this.checkIndex = index
+      this.checkIndex = index;
+      this.view = index == 0 ? basic : advance;
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.icon_basic {
-  color: #8e6af6;
+.v-enter-active,
+.v-leave-active {
+    transition: all 0.5s;
+}
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(150px);
 }
 .document_body {
   height: 100%;
@@ -50,24 +73,23 @@ export default {
 .document_box {
   width: 100%;
   height: (100vh - 0.6rem);
-  // margin-top: 0.6rem;
   display: flex;
   overflow: hidden;
-  padding: 0.8rem 1.79rem 0;
+  padding: 0.8rem 1.78rem 0;
   .nav {
     height: 100%;
     width: 0.5rem;
-    // background-color: deeppink;
     li {
       display: flex;
       justify-content: center;
-      cursor: pointer;
+      margin: 0.19rem 0;
     }
   }
   .content {
     height: 100%;
     flex-grow: 1;
-    // background-color: #fff;
+    padding: 0.07rem 0 0 0.3rem;
+    color: #b5b7bb;
   }
 }
 </style>

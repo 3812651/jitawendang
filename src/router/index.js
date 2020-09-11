@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Layout from '../components/Login/Layout.vue'
-import Login from '../components/Login/Login.vue'
-import Training from '../components/Training.vue'
-import Document from '../components/Document.vue'
+import Layout from '../views/Login/Layout.vue'
+import Login from '../views/Login/Login.vue'
+import Training from '../views/Training.vue'
+import Document from '../views/Document/index.vue'
 
 
 const routes = [
@@ -20,7 +20,7 @@ const routes = [
             { path: 'Login', component: Login }
         ]
 
-    }
+    },
 
 ]
 

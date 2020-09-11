@@ -1,0 +1,9 @@
+<svg width="150" height="150" viewBox="0 0 38 38"
+    xmlns="http://www.w3.org/2000/svg" stroke="#ff9900">
+    <g fill="#ff9900" fill-rule="evenodd">
+                <ellipse  cx="14" cy="24" rx="6" ry="5"></ellipse>
+                <rect x='20' y='6' rx='0.1' ry='.1' width='.2' height='18'/>
+                <line x1="20" y1="6" x2="27" y2="13"></line>
+        </g>
+    </g>
+</svg>

@@ -16,7 +16,7 @@
             <polygon class="triangle-polygon" points="25,5 45,40 5,40" />
           </svg>
         </div>
-        <transition name="component-fade" mode="out-in">
+        <transition mode="out-in">
           <component @view="show" :is="view"></component>
         </transition>
       </Card>
@@ -89,12 +89,12 @@ export default {
   top: -5px;
 }
 
-.component-fade-enter-active,
-.component-fade-leave-active {
+.v-enter-active,
+.v-leave-active {
   transition: all 0.5s;
 }
-.component-fade-enter, .component-fade-leave-to
-/* .component-fade-leave-active for below version 2.1.8 */ {
+.v-enter,
+.v-leave-to {
   opacity: 0;
   transform: translateX(-150px);
 }
@@ -156,7 +156,7 @@ export default {
         color: #b5b7bb;
         transition: all 0.3s ease-in-out;
       }
-      a:hover{
+      a:hover {
         color: #fff;
       }
       span {

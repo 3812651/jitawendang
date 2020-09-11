@@ -34,6 +34,9 @@ body {
 }
 ul {
   list-style: none;
+  li {
+    cursor: pointer;
+  }
 }
 a {
   text-decoration: none;
