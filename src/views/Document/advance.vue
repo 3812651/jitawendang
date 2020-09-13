@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="advance_box">
     <Menu mode="horizontal" active-name="1">
       <MenuItem name="1">
         <Icon type="ios-paper" />音阶
@@ -24,6 +24,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.advance_box{
+  height:100%;
+}
 /deep/.ivu-menu-light {
   background: none;
   .ivu-menu-item {
