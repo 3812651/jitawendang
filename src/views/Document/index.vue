@@ -57,9 +57,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import '../../assets/css/global.less';
 .v-enter-active,
 .v-leave-active {
-    transition: all 0.5s;
+  transition: all 0.5s;
 }
 .v-enter,
 .v-leave-to {
@@ -75,7 +76,7 @@ export default {
   height: (100vh - 0.6rem);
   display: flex;
   overflow: hidden;
-  padding: 0.8rem 1.78rem 0;
+  padding: 0.8rem 1.74rem 0;
   .nav {
     height: 100%;
     width: 0.5rem;
@@ -87,9 +88,9 @@ export default {
   }
   .content {
     height: 100%;
-    flex-grow: 1;
+    width: calc(100% - 0.3rem) ;
     padding: 0.07rem 0 0 0.3rem;
-    color: #b5b7bb;
+    // color: #b5b7bb;
   }
 }
 </style>

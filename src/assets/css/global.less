@@ -1,0 +1,183 @@
+@14px: {
+    font-size: 0.14rem;
+}
+
+
+@flex_column : {
+    display: flex;
+    flex-direction: column;
+}
+
+/*card公共样式*/
+.card {
+    width: 100%;
+    height: calc(100% - 0.7rem);
+    margin-top: 0.1rem;
+    overflow-y: scroll;
+    img{
+        display: block;
+    }
+}
+
+/*card公共样式end*/
+/*滚动条样式*/
+.card::-webkit-scrollbar {
+    width: 0.08rem;
+    height: 0.08rem;
+    background-color: #bce0f0;
+}
+
+.card::-webkit-scrollbar-thumb {
+    background-color: #2d8cf0;
+    border-radius: 0.08rem;
+}
+
+/*滚动条end*/
+/*强调语句*/
+p.tip {
+    border-left-color: #f66;
+}
+
+p.success {
+    border-left-color: #409EFF;
+
+}
+
+p.tip:before {
+    content: "!";
+    background-color: #f66;
+}
+
+p.tip,
+p.success {
+    padding: 0.12rem 0.24rem 0.12rem 0.3rem;
+    margin: 0.2rem 0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    background-color: #f8f8f8;
+    position: relative;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    margin-left: 8px;
+}
+
+p.tip:before,
+p.success:before {
+    position: absolute;
+    top: 0.14rem;
+    left: -12px;
+    color: #fff;
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 0.2rem;
+    font-weight: bold;
+    font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    @14px();
+}
+
+p.question {
+    border-left-color: #409EFF;
+}
+
+p.question:before {
+    content: "?";
+    background-color: #409EFF;
+    ;
+}
+
+p.question {
+    padding: 12px 24px 12px 30px;
+    margin: 0.2rem 0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    background-color: #f8f8f8;
+    position: relative;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    margin-left: 8px;
+}
+
+p.question:before {
+    position: absolute;
+    top: 14px;
+    left: -12px;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+}
+
+.author {
+    font-style: oblique;
+    font-size: 12px;
+    color: #2d8cf0;
+    ;
+}
+
+/*强调语句end*/
+/*音程模块*/
+
+
+/*音程模块end*/
+
+
+
+/*基础，进阶乐理自适应*/
+
+/deep/.ivu-btn-circle {
+    border-radius: 0.32rem;
+    height: 0.32rem;
+    padding: 0 0.15rem;
+    @14px();
+}
+
+/deep/.ivu-card-bordered {
+    border: none;
+}
+
+/deep/.ivu-tag {
+    @14px();
+
+    margin-bottom: 0.2rem;
+}
+
+/deep/.ivu-tag-dot {
+    color: #17233d !important;
+    height: 0.32rem;
+    line-height: 0.32rem;
+}
+
+/deep/.ivu-tag-dot-inner {
+    height: 0.12rem;
+    width: 0.12rem;
+}
+
+/deep/.ivu-menu {
+    @14px();
+
+    .ivu-menu-item {
+        @14px();
+    }
+}
+
+/deep/.ivu-tabs-nav-container {
+    @14px();
+}
+
+/deep/.ivu-card-body {
+    padding: 0.16rem;
+}
+
+/deep/.ivu-menu-horizontal {
+    height: 0.6rem;
+    line-height: 0.6rem;
+}
+
+/*自适应end*/

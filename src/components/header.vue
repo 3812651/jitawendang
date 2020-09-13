@@ -1,6 +1,8 @@
 <template>
   <div class="header">
-    <div class="logo">Logo</div>
+    <div class="logo">
+      <span>Logo</span>
+    </div>
     <ul>
       <li
         v-for="(item,index) in nav_list"
@@ -18,7 +20,7 @@
 export default {
   data() {
     return {
-      checkIndex: this.$store.state.checkIndex,
+      checkIndex: window.localStorage.getItem("checkIndex")==null?1:window.localStorage.getItem("checkIndex"),
       nav_list: [
         { name: "社区", url: "/Community" },
         { name: "训练", url: "/Training" },
@@ -29,32 +31,34 @@ export default {
   },
   methods: {
     nav_change(item, index) {
-      // console.log(this.$store);
-      this.$store.commit({
-        type: "changeIndex",
-        checkIndex: index,
-      });
+      // this.$store.commit({
+      //   type: "changeIndex",
+      //   checkIndex: index,
+      // });
+      window.localStorage.setItem("checkIndex", index);
       this.$router.push({ path: item.url });
     },
   },
 };
 </script>
 <style lang="less" scoped>
+@flex: {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+};
 .isActive {
   color: #fff !important;
 }
 .header {
   position: fixed;
   top: 0;
+  @flex();
   width: 100%;
   height: 0.6rem;
   color: white;
-  padding: 0 0.5rem;
-  // background-color: pink;
+  padding: 0 1.74rem;
   z-index: 9999;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
   .logo {
     width: 0.5rem;
     height: 0.5rem;
@@ -63,15 +67,19 @@ export default {
     line-height: 0.5rem;
     border: 1px solid #fff;
     border-radius: 50%;
+    span {
+      font-size: 0.14rem;
+    }
   }
   ul {
+    flex-shrink: 2;
     display: flex;
     li {
       position: relative;
       width: 1.4rem;
       height: 100%;
       line-height: 0.6rem;
-      font-size: 16px;
+      font-size: 0.16rem;
       color: #b5b7bb;
       // background-color: deepskyblue;
       text-align: center;

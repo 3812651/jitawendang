@@ -9,7 +9,7 @@
             <Tag color="primary" type="dot">Capo=1</Tag>
             <div class="notes_box">
               <svg-icon iconClass="notes" class="notes" />
-              <span>= 85</span>
+              <span>=85</span>
             </div>
             <Tag color="primary" type="dot">Standard tuning</Tag>
           </div>
@@ -46,39 +46,30 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import "../../../assets/css/global.less";
 .notes {
   width: 0.32rem !important;
   height: 0.32rem !important;
-}
-/deep/.ivu-card-bordered{
-    border: none;
-}
-/deep/.ivu-tag {
-  font-size: 14px;
-  margin-bottom: 0.2rem;
-}
-/deep/.ivu-tag-dot {
-  color: #17233d !important;
+  span {
+    font-size: 0.14rem;
+  }
 }
 .card {
-  width: 100%;
-  height: calc(100% - 0.7rem);
-  margin-top: 10px;
-  overflow-y: scroll;
   img {
-    display: block;
+    width: 4rem;
+    height: 2.7rem;
   }
   .content {
     display: flex;
     div:nth-child(1) {
-      width: 1.5rem;
+      @flex_column();
       .notes_box {
         display: flex;
         height: 0.32rem;
-        width: 0.9rem;
+        width: 1.45rem;
         margin-bottom: 0.2rem;
-        border: 1px solid #e8eaec;
-        border-radius: 4px;
+        border: 0.01rem solid #e8eaec;
+        border-radius: 0.04rem;
         span {
           display: inline-block;
           line-height: 0.32rem;
@@ -88,22 +79,13 @@ export default {
     .content_text {
       flex-grow: 1;
       margin-left: 1rem;
-      font-size: 14px;
-      color: #515a6e;
+      font-size: 0.14rem;
+      color: #898a8c;
       p {
         line-height: 0.32rem;
         margin-bottom: 0.2rem;
       }
     }
   }
-}
-.card::-webkit-scrollbar {
-    width: .08rem;
-    height: .08rem;
-    background-color: #bce0f0;
-}
-.card::-webkit-scrollbar-thumb {
-    background-color: #2D8CF0;
-    border-radius: .08rem;
 }
 </style>

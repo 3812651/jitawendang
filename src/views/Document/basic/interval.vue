@@ -1,35 +1,51 @@
 <template>
   <Card class="card">
-    <Tabs value="name1">
-      <TabPane label="度的概念" name="name1">
-        <Tag color="warning">音程: 两个音的音高距离,单位名称是度</Tag>
-        <Tag color="primary">吉他谱左上角的信息有如下四个</Tag>
-        <div class="content">
-          <div>
-            <Tag color="primary" type="dot">do=C</Tag>
-            <Tag color="primary" type="dot">Capo=1</Tag>
-            <div class="notes_box">
-              <svg-icon iconClass="notes" class="notes" />
-              <span>= 85</span>
-            </div>
-            <Tag color="primary" type="dot">Standard tuning</Tag>
-          </div>
-          <div class="content_text">
-            <p>以c为第一个音往后构建音阶</p>
-            <p>变调夹夹在一品</p>
-            <p>每分钟85拍</p>
-            <p>标准调弦的意思,一般不写,如果是其他调弦方式会写出来</p>
-          </div>
-        </div>
-        <Tag color="primary">关于和弦按法</Tag>
-        <img :src="chord" alt />
-        <Tag color="primary">关于扫弦</Tag>
-        <img :src="sweep" alt />
-      </TabPane>
-      <TabPane label="度的形容词" name="name2">
-        <img :src="time" alt />
-      </TabPane>
-    </Tabs>
+    <Tag color="primary">音程: 两个音的音高距离,单位名称是度</Tag>
+    <div class="content">
+      <h3>
+        度的概念:从一个音的名字念到另外一个音的名字,总共念了几个字,他们两个音的距离就是几度(
+        <span
+          class="author"
+        >--本章节理念来自官大為(Wiwi Kuan).好和弦系列</span>)
+      </h3>
+      <Divider />
+      <p class="success">
+        比如:Do 到 Fa,念了四个字,所以他们的距离就是4度
+        <br />比如:Re 到 Fa,念了三个字,所以他们的距离就是3度
+      </p>
+      <p class="tip">
+        有些同学可能就会疑惑:明明
+        <span>[</span>bMi
+        <span>]</span>等于
+        <span>[</span>#Re
+        <span>]</span>啊,为什么Do 到
+        <span>[</span>bMi
+        <span>]</span> 和 Do到
+        <span>[</span>#Re
+        <span>]</span>,一个是小3度,一个是增二度
+        <br />注意了!:度跟升降号没关,只跟音的音名有关
+      </p>
+      <p class="question">问题来了,如果音的前面加上升降号了怎么办?请看下面</p>
+      <h3>度的形容词:为了描述音程中出现升降号时而产生</h3>
+      <Divider />
+      <p class="success">
+        先把大调音阶里,每一个音到根音的距离,分成
+        [完全/纯]和[大]两组
+      </p>
+      <Table :columns="columns1" :data="data1"></Table>
+      <p class="success">
+        [完全]组：第[1、4、5、8]个音到根音
+        <br />[大]组：第[2、3、6、7]个音到根音
+      </p>
+      <p class="tip">
+        减 --1458([完全]组)-- 增(比完全要少半音的就是减,比完全要多半音的就是增,下面同理)
+        <br />减 --小 --2367([大]组)-- 增
+      </p>
+      <p class="question">
+        比如:Do到bMi,念了三个字确定是3度,根据分组bMi属于[大]的一组,但是因为bMi比Mi要小，所以是小3度
+        <br />比如:Mi到#Xi,念了五个字确定是5度,根据分组#Xi属于[完全]组（把Mi看作根音，#Xi是它的第五个音）,但是因为#Xi比Xi要大,确定是增5度
+      </p>
+    </div>
   </Card>
 </template>
 <script>
@@ -42,11 +58,58 @@ export default {
       chord: chord,
       sweep: sweep,
       time: time,
+      columns1: [
+        {
+          title: "Do 到根音",
+          key: "1",
+        },
+        {
+          title: "Re到根音",
+          key: "2",
+        },
+        {
+          title: "Mi到根音",
+          key: "3",
+        },
+        {
+          title: "Fa到根音",
+          key: "4",
+        },
+        {
+          title: "So到根音",
+          key: "5",
+        },
+        {
+          title: "La到根音",
+          key: "6",
+        },
+        {
+          title: "Xi到根音",
+          key: "7",
+        },
+        {
+          title: "(高八度)Do到根音",
+          key: "8",
+        },
+      ],
+      data1: [
+        {
+          1: "完全一度",
+          2: "大二度",
+          3: "大三度",
+          4: "完全四度",
+          5: "完全五度",
+          6: "大六度",
+          7: "大七度",
+          8: "完全八度",
+        },
+      ],
     };
   },
 };
 </script>
 <style lang="less" scoped>
+@import "../../../assets/css/global.less";
 .notes {
   width: 0.32rem !important;
   height: 0.32rem !important;
@@ -55,56 +118,14 @@ export default {
   border: none;
 }
 /deep/.ivu-tag {
-  font-size: 14px;
+  font-size: 0.14rem;
   margin-bottom: 0.2rem;
 }
 /deep/.ivu-tag-dot {
   color: #17233d !important;
 }
-.card {
-  width: 100%;
-  height: calc(100% - 0.7rem);
-  margin-top: 10px;
-  overflow-y: scroll;
-  img {
-    display: block;
-  }
-  .content {
-    display: flex;
-    div:nth-child(1) {
-      width: 1.5rem;
-      .notes_box {
-        display: flex;
-        height: 0.32rem;
-        width: 0.9rem;
-        margin-bottom: 0.2rem;
-        border: 1px solid #e8eaec;
-        border-radius: 4px;
-        span {
-          display: inline-block;
-          line-height: 0.32rem;
-        }
-      }
-    }
-    .content_text {
-      flex-grow: 1;
-      margin-left: 1rem;
-      font-size: 14px;
-      color: #515a6e;
-      p {
-        line-height: 0.32rem;
-        margin-bottom: 0.2rem;
-      }
-    }
-  }
-}
-.card::-webkit-scrollbar {
-  width: 0.08rem;
-  height: 0.08rem;
-  background-color: #bce0f0;
-}
-.card::-webkit-scrollbar-thumb {
-  background-color: #2d8cf0;
-  border-radius: 0.08rem;
+
+.content {
+  @flex_column();
 }
 </style>
