@@ -16,20 +16,66 @@
         <Tag color="primary" style="margin-top:0.5rem">平常用的时候可以记住这样的规律</Tag>
         <img :src="sevenf" class="sevenf" />
       </TabPane>
-      <TabPane label="变化和弦" name="name2"></TabPane>
-      <TabPane label="借用和弦" name="name3"></TabPane>
-      <TabPane label="附属和弦" name="name4"></TabPane>
+      <TabPane label="变化和弦" name="name2">
+        <h3>add:往和弦里面添加任何一个音！包括各种升降音,或者不在调内的音</h3>
+        <Divider />
+        <p class="success">比如:Cadd2是在C大三和弦的基础上,直接add一个2音!</p>
+        <h3>sus(挂留和弦):将和弦里面的3音挂在2或4音,而原来的3音则直接丢弃</h3>
+        <Divider />
+        <p class="success">比如:Csus2是在C大三和弦的基础上,直接将3音挂在2音!</p>
+        <p class="tip">Csus其实就是Csus4,因为不声明将3音挂在哪里,就默认挂在4音</p>
+        <h3>omit:省略和弦里面某一个音！</h3>
+        <Divider />
+        <p class="success">比如:Cmaj7(omit5)是省略5音的意思！</p>
+        <h3>转位和弦:将和弦的三音、五音或七音其中一个转为低音(低音是和弦最低的那个音)</h3>
+        <Divider />
+        <p class="question">
+          比如C(1 3 5)的第一转位和弦C/E(3 5 1[比原来的1高八度]):就是把三度音看作低音,根音升高一个八度
+          <br />比如C(1 3 5)的第二转位和弦C/G(5 1[比原来的1高八度] 3[比原来的3高八度]):就是把五度音看作低音,根音和三度音升高一个八度
+        </p>
+        <p class="tip">以根音为低音的和弦叫原位和弦,其他和弦内音做低音才有了转位和弦</p>
+      </TabPane>
+      <TabPane label="借用和弦" name="name3">
+        <h3>
+          借用和弦:拿同一「主音」,但不同「调式」的和弦来用
+          <span class="author">----本章节素材来自官大為(Wiwi Kuan).好和弦系列</span>
+        </h3>
+        <Divider />
+        <img :src="borrow" />
+        <Tag
+          color="primary"
+          style="margin-top: 0.3rem"
+        >你可以尝试下面的例子(装饰音可以不要),用C小调的和弦替换掉C大调的1645和声进行的「同级」和弦</Tag>
+        <img :src="borrowExample" />
+      </TabPane>
+      <TabPane label="附属和弦" name="name4">
+        <h3>副属和弦:实际上它是个装饰品,从你要接的和弦往上数五度音的属七和弦就是副属和弦</h3>
+        <Divider />
+        <p class="success">
+          比如有一个和声进行C-Am-F-G,你就可以在C和Am间插一个副属和弦,Am往上数五度音的属七和弦就是E7
+          <br />此时和声进行变成了C-E7-Am-F-G
+        </p>
+        <h3>副属和弦的替代品:「三全音代理」和弦</h3>
+        <Divider />
+        <Tag color="primary">「三全音代理」和弦意思就是跟副属和弦都一样有三个全音的和弦</Tag>
+        <p class="tip">「三全音代理」和弦：从你要接的和弦前面插入升高半音的属七和弦(只要是属和弦都可以)</p>
+        <p class="success">比如有一个和声进行C-Am-F-G,你就可以在Am前面加一个#A7和弦</p>
+      </TabPane>
     </Tabs>
   </Card>
 </template>
 <script>
 import seven from "../../../assets/document/seven.png";
 import sevenf from "../../../assets/document/sevenf.png";
+import borrow from "../../../assets/document/borrow.png";
+import borrowExample from "../../../assets/document/borrowExample.png";
 export default {
   data() {
     return {
       seven: seven,
       sevenf: sevenf,
+      borrow: borrow,
+      borrowExample: borrowExample,
       columns1: [
         {
           title: "例子",
@@ -158,16 +204,14 @@ export default {
 <style lang="less" scoped>
 @import "../../../assets/css/global.less";
 h3 {
-  margin: 0.4rem 0;
+  margin: 0.3rem 0;
 }
 img {
   width: 5rem;
   height: 2.7rem;
 }
 .sevenf {
-  vertical-align: middle;
-  margin-left: 0.35rem;
-  width: 3.5rem;
+  width: 3.8rem;
   height: 0.8rem;
 }
 </style>

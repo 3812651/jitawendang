@@ -88,7 +88,7 @@ export default {
   }
   .content {
     height: 100%;
-    width: calc(100% - 0.3rem) ;
+    width: calc(100% - 0.5rem) ;
     padding: 0.07rem 0 0 0.3rem;
     // color: #b5b7bb;
   }

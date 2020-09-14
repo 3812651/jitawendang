@@ -2,6 +2,10 @@
     font-size: 0.14rem;
 }
 
+@12px: {
+    font-size: 12px;
+
+}
 
 @flex_column : {
     display: flex;
@@ -14,7 +18,8 @@
     height: calc(100% - 0.7rem);
     margin-top: 0.1rem;
     overflow-y: scroll;
-    img{
+
+    img {
         display: block;
     }
 }
@@ -34,12 +39,16 @@
 
 /*滚动条end*/
 /*强调语句*/
+@border-left-color__success:{
+    border-left-color: #409EFF;
+
+}
 p.tip {
     border-left-color: #f66;
 }
 
 p.success {
-    border-left-color: #409EFF;
+    @border-left-color__success();
 
 }
 
@@ -52,20 +61,20 @@ p.tip,
 p.success {
     padding: 0.12rem 0.24rem 0.12rem 0.3rem;
     margin: 0.2rem 0;
-    border-left-width: 4px;
+    border-left-width: 0.04rem;
     border-left-style: solid;
     background-color: #f8f8f8;
     position: relative;
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px;
-    margin-left: 8px;
+    border-bottom-right-radius: 0.02rem;
+    border-top-right-radius: 0.02rem;
+    margin-left: 0.08rem;
 }
 
 p.tip:before,
 p.success:before {
     position: absolute;
     top: 0.14rem;
-    left: -12px;
+    left: -0.12rem;
     color: #fff;
     width: 0.2rem;
     height: 0.2rem;
@@ -78,47 +87,45 @@ p.success:before {
 }
 
 p.question {
-    border-left-color: #409EFF;
+    @border-left-color__success();
 }
 
 p.question:before {
     content: "?";
     background-color: #409EFF;
-    ;
 }
 
 p.question {
-    padding: 12px 24px 12px 30px;
+    padding: 0.12rem 0.24rem 0.12rem 0.3rem;
     margin: 0.2rem 0;
-    border-left-width: 4px;
+    border-left-width: 0.04rem;
     border-left-style: solid;
     background-color: #f8f8f8;
     position: relative;
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px;
-    margin-left: 8px;
+    border-bottom-right-radius: 0.02rem;
+    border-top-right-radius: 0.02rem;
+    margin-left: 0.08rem;
 }
 
 p.question:before {
     position: absolute;
-    top: 14px;
-    left: -12px;
+    top: 0.14rem;
+    left: -0.12rem;
     color: #fff;
-    width: 20px;
-    height: 20px;
+    width: 0.2rem;
+    height: 0.2rem;
     border-radius: 100%;
     text-align: center;
-    line-height: 20px;
+    line-height: 0.2rem;
     font-weight: bold;
     font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-    font-size: 14px;
+    @14px();
 }
 
 .author {
     font-style: oblique;
-    font-size: 12px;
     color: #2d8cf0;
-    ;
+    @12px();
 }
 
 /*强调语句end*/

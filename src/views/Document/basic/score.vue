@@ -26,7 +26,7 @@
         <img :src="sweep" alt />
       </TabPane>
       <TabPane label="时值" name="name2">
-        <img :src="time" alt />
+        <img :src="time" alt style="width:7rem;height:5rem;" />
       </TabPane>
     </Tabs>
   </Card>

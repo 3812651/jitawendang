@@ -1,0 +1,8 @@
+<svg width='200' height='200'
+    xmlns='http://wwww.w3.org/2000/svg' viewBox="0 0 70 70">
+    <polyline points="25,10 35,30 42,20" style="stroke:black; stroke-width:; fill:none">
+        <animate attributeName="length" attributeType="XML"
+    from="20" to="200" begin="0s" dur="3s" fill="freeze" />
+    </polyline>
+    <line x1='42.7' y1='19' x2='48' y2='11' style='stroke:black'/>
+</svg>

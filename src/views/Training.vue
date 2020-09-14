@@ -7,50 +7,11 @@
       <div class="right"></div>
       <div class="card_box">
         <ul>
-          <li id="1">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="2">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="3">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="4">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens1.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="5">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="6">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens2.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="7">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="8">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
-          </li>
-          <li id="9">
-            <svg viewBox="40 74 170 310" width="3.4rem" height="6.2rem">
-              <image xlink:href="../assets/sapiens.svg" width="100%" height="100%" />
-            </svg>
+          <li v-for="item in svg_list" :key="item.iconClass" :id="item.id">
+            <svg-icon :iconClass="item.iconClass" class="svg_default" />
+            <svg-icon iconClass="tempo_qianxiao_shoushi"  />
+            <i class="play_btn" v-show="btn_flag" @click="btn_flag=!btn_flag"></i>
+            <i class="pause_btn" v-show="!btn_flag" @click="btn_flag=!btn_flag"></i>
           </li>
         </ul>
       </div>
@@ -72,7 +33,20 @@ export default {
   data() {
     return {
       checkIndex: 0,
+      li_index: 4,
+      btn_flag:true,
       tooltip_list: [{ name: "Colorful" }, { name: "Outline" }],
+      svg_list: [
+        { id: 1, iconClass: "tempo_28" },
+        { id: 2, iconClass: "tempo_816" },
+        { id: 3, iconClass: "tempo_168" },
+        { id: 4, iconClass: "tempo_416" },
+        { id: 5, iconClass: "tempo_qianxiao" },
+        { id: 6, iconClass: "tempo_houxiao" },
+        { id: 7, iconClass: "tempo_xiaoqiefen" },
+        { id: 8, iconClass: "tempo_4" },
+        { id: 9, iconClass: "tempo_unknow" },
+      ],
     };
   },
   methods: {
@@ -81,29 +55,48 @@ export default {
     },
   },
   mounted() {
+    console.log($("#5").children("svg"));
     $("#5").addClass("li_active_center");
+    $("#5").children("svg").addClass("svg_active");
+
     $("#5").prev().addClass("li_active_left");
+    $("#5").prev().children("svg").addClass("svg_active_left_right");
+
     $("#5").next().addClass("li_active_right");
+    $("#5").next().children("svg").addClass("svg_active_left_right");
     $(function () {
       function li_click() {
         let current_id = parseInt($(this).attr("id")), //当前点击li的id
           //上一个拥有居中放大class的li的id
           history_id = parseInt($(".li_active_center").attr("id"));
 
-        //如果选中的li不是上一个居中的li，则把立即把上一个居中及左右li的样式消除
+        //如果选中的li不是上一个居中的li，则把立即把上一个居中的li及它左右的li的样式消除
+        //以及把li里面的svg恢复成默认样式
         if (current_id != history_id) {
-          console.log($(`#${history_id}`));
-          $(`#${history_id}`).removeClass("li_active_center");
-          $(`#${history_id}`).prev().removeClass("li_active_left");
-          $(`#${history_id}`).next().removeClass("li_active_right");
+          let history_li = $(`#${history_id}`);
+          history_li.removeClass("li_active_center");
+          history_li.prev().removeClass("li_active_left");
+          history_li.next().removeClass("li_active_right");
+
+          history_li.children("svg").removeClass("svg_active");
+          history_li
+            .prev()
+            .children("svg")
+            .removeClass("svg_active_left_right");
+          history_li
+            .next()
+            .children("svg")
+            .removeClass("svg_active_left_right");
         }
 
         //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
         if (current_id == 1) {
           $(this).removeClass("li_active_left");
+          $(this).children("svg").removeClass("svg_active_left_right");
         }
         if (current_id == 9) {
           $(this).removeClass("li_active_right");
+          $(this).children("svg").removeClass("svg_active_left_right");
         }
         setTimeout(() => {
           //为了保持选中的li居中，让ul的位置动态的变化
@@ -125,22 +118,15 @@ export default {
             });
           }
         }, 400);
-        // 给选中li及左右li加上class
+        // 给选中li及左右li，还有里面的svg加上class
         setTimeout(() => {
-          $(this)
-            .addClass("li_active_center")
-            .siblings()
-            .removeClass("li_active_center");
-          $(this)
-            .prev()
-            .addClass("li_active_left")
-            .siblings()
-            .removeClass("li_active_left");
-          $(this)
-            .next()
-            .addClass("li_active_right")
-            .siblings()
-            .removeClass("li_active_right");
+          $(this).addClass("li_active_center");
+          $(this).prev().addClass("li_active_left");
+          $(this).next().addClass("li_active_right");
+
+          $(this).children("svg").addClass("svg_active");
+          $(this).prev().children("svg").addClass("svg_active_left_right");
+          $(this).next().children("svg").addClass("svg_active_left_right");
         }, 900);
       }
       //防抖
@@ -157,13 +143,28 @@ export default {
   justify-content: center;
   align-items: center;
 };
+
+.svg_default {
+  width: 1.7rem !important;
+  height: 1.1rem !important;
+  transition: all 0.4s ease;
+}
+.svg_active {
+  width: 2rem !important;
+  height: 1.85rem !important;
+}
+.svg_active_left_right {
+  width: 1.6rem !important;
+  height: 1.25rem !important;
+}
+
 .li_active_center {
   height: 4.4rem !important;
   width: 2.15rem !important;
   z-index: 5;
   margin-left: -22px !important;
   margin-right: -22px !important;
-  animation: select_dropdown 1.3s linear;
+  animation: select_dropdown 0.9s linear;
 }
 @keyframes select_dropdown {
   0% {
@@ -281,11 +282,46 @@ export default {
     transform-origin: center;
   }
 }
-
+/*做li的动效和暂停、播放按钮的切换*/
 .card_box {
   li {
-    cursor: pointer;
     transition: all 0.4s ease;
+    .pause_btn {
+      width: 50px;
+      height: 50px;
+      opacity: 0;
+      transition: opacity 0.75s;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -25px 0 0 -25px;
+      background: url(../assets/training/pause.png) right center no-repeat;
+      background-size: 50px auto;
+      border-radius: 50%;
+    }
+
+    .play_btn {
+      width: 50px;
+      height: 50px;
+      opacity: 0;
+      transition: opacity 0.75s;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -25px 0 0 -25px;
+      background: url(../assets/training/play.png) right center no-repeat;
+      background-size: 50px auto;
+      border-radius: 50%;
+    }
+  }
+  .li_active_center:hover .pause_btn {
+    opacity: 1;
+    transition: opacity 0.75s;
+  }
+
+  .li_active_center:hover .play_btn {
+    opacity: 1;
+    transition: opacity 0.75s;
   }
   // li:hover {
   //   transform: scale(1.1, 1.1);
@@ -313,6 +349,7 @@ export default {
       height: 4.4rem;
     }
     li {
+      position: relative;
       width: 1.7rem;
       height: 3.3rem;
       background-color: #fff;
