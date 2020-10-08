@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import api from '../../common/api.js'
 export default {
   data() {
     return {
@@ -58,13 +59,21 @@ export default {
         ],
       },
       single: true,
-      view:'Register'
+      view: "Register",
     };
   },
   methods: {
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
+          console.log(this.formInline);
+          this.$post(api.login, this.$Qs.stringify(this.formInline))
+            .then((res) => {
+              window.localStorage.setItem("token", res.data.token);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
           this.$Message.success("Success!");
         } else {
           this.$Message.error("Fail!");
@@ -73,14 +82,13 @@ export default {
     },
     sonclick() {
       //子组件通过调用事件向父组件传值
-      this.$emit('view', this.view);
+      this.$emit("view", this.view);
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-
 @d_flex: {
   display: flex;
   justify-content: center;
@@ -109,13 +117,13 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-/deep/.ivu-card-head{
-  border-bottom:none ;
+/deep/.ivu-card-head {
+  border-bottom: none;
 }
 .login_card {
   p {
     text-align: center;
-    color: #29282A;
+    color: #29282a;
     font-size: 18px;
     a {
       cursor: pointer;
