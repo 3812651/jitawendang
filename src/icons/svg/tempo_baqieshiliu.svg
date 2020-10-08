@@ -1,0 +1,22 @@
+<svg width="280" height="150" viewBox="14 0 70 70"
+    xmlns="http://www.w3.org/2000/svg" stroke="#E9BD6C">
+    <g fill="#E9BD6C" fill-rule="evenodd">
+        <g  stroke-width="1">
+            <ellipse  transform="rotate(-19)" cx="10" cy="30" rx="5" ry="4"></ellipse>
+            <rect x='23.8' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+            <line x1="24.2" y1="6" x2="30" y2="15"></line>
+        </g>
+        <g>
+            <ellipse transform="rotate(-21.8)"  cx="30.5" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='47.8' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+        </g>
+        <g>
+            <ellipse transform="rotate(-12.5)"  cx="58.5" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='70.4' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+            <line x1="70.8" y1="6" x2="85" y2="6"></line>
+            <line x1="70.8" y1="10" x2="85" y2="10"></line>
+            <ellipse transform="rotate(-10)"  cx="74.5" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='84.7' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+        </g>
+    </g>
+</svg>

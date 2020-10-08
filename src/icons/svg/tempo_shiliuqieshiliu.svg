@@ -1,0 +1,25 @@
+<svg width="280" height="150" viewBox="14 0 70 70"
+    xmlns="http://www.w3.org/2000/svg" stroke="#E9BD6C">
+    <g fill="#E9BD6C" fill-rule="evenodd">
+        <g  stroke-width="1">
+            <ellipse  transform="rotate(-19)" cx="10" cy="30" rx="5" ry="4"></ellipse>
+            <rect x='23.8' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+            <line x1="24.2" y1="6" x2="38.2" y2="6"></line>
+            <line x1="24.2" y1="10" x2="38.2" y2="10"></line>
+            <ellipse  transform="rotate(-8.5)" cx="30" cy="30" rx="5" ry="4"></ellipse>
+            <rect x='38.8' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+        </g>
+        <g>
+            <ellipse transform="rotate(-18.5)"  cx="37.5" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='52.8' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+        </g>
+        <g>
+            <ellipse transform="rotate(-13.5)"  cx="53.5" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='66' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+            <line x1="66" y1="6" x2="80.4" y2="6"></line>
+            <line x1="66" y1="10" x2="80.4" y2="10"></line>
+            <ellipse transform="rotate(-10.8)"  cx="69.8" cy="40" rx="5" ry="4"></ellipse>
+            <rect x='80.4' y='6' rx='0.1' ry='.1' width='.2' height='18' />
+        </g>
+    </g>
+</svg>

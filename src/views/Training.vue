@@ -7,9 +7,17 @@
       <div class="right"></div>
       <div class="card_box">
         <ul id="first_ul" v-show="checkIndex == 0">
-          <li v-for="item in svg_list" :key="item.iconClass" :id="item.id">
+          <li v-for="item in firstList" :key="item.iconClass" :id="item.id">
             <svg-icon :iconClass="item.iconClass" class="svg_default" />
-            <svg-icon iconClass="shoushi_qianxiao" class="svg_default" />
+            <div class="li_cxt">
+              <p>「节奏型」:{{ item.rhythmType }}</p>
+              <div class="handShape">
+                <p>「手型」:</p>
+                <svg-icon :iconClass="item.shoushi" class="svg_default" />
+              </div>
+              <!-- <p><span>「速写」:</span><img :src="item.sketchSrc" /></p> -->
+            </div>
+
             <i
               class="play_btn"
               v-show="btn_flag"
@@ -23,13 +31,14 @@
           </li>
         </ul>
         <ul id="second_ul" v-show="checkIndex == 1">
-          <li
-            v-for="item in another_svg_list"
-            :key="item.iconClass"
-            :id="item.id"
-          >
+          <li v-for="item in secondList" :key="item.iconClass" :id="item.id">
             <svg-icon :iconClass="item.iconClass" class="svg_default" />
-            <svg-icon iconClass="shoushi_qianxiao" class="svg_default" />
+            <div class="li_cxt">
+              <p><span>「节奏型」:</span>{{ item.rhythmType }}</p>
+              <p><span>「手型」:</span><img :src="item.handShapeSrc" /></p>
+              <p><span>「速写」:</span><img :src="item.sketchSrc" /></p>
+            </div>
+            <!-- <svg-icon iconClass="shoushi_qianxiao" class="svg_default" /> -->
             <i
               class="play_btn"
               v-show="btn_flag"
@@ -68,27 +77,126 @@ export default {
       li_index: 4,
       btn_flag: true,
       tooltip_list: [{ name: "单拍子" }, { name: "复拍子" }],
-      svg_list: [
-        { id: 1, iconClass: "tempo_28" },
-        { id: 2, iconClass: "tempo_816" },
-        { id: 3, iconClass: "tempo_168" },
-        { id: 4, iconClass: "tempo_416" },
-        { id: 5, iconClass: "tempo_qianxiao" },
-        { id: 6, iconClass: "tempo_houxiao" },
-        { id: 7, iconClass: "tempo_xiaoqiefen" },
-        { id: 8, iconClass: "tempo_4" },
-        { id: 9, iconClass: "tempo_unknow" },
+      firstList: [
+        {
+          id: 1,
+          iconClass: "tempo_28",
+          rhythmType: "二八",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 2,
+          iconClass: "tempo_816",
+          rhythmType: "八十六",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 3,
+          iconClass: "tempo_168",
+          rhythmType: "十六八",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 4,
+          iconClass: "tempo_416",
+          rhythmType: "四个十六",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 5,
+          iconClass: "tempo_qianxiao",
+          rhythmType: "前小",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 6,
+          iconClass: "tempo_houxiao",
+          rhythmType: "后小",
+          shoushi: "shoushi_houxiao",
+        },
+        {
+          id: 7,
+          iconClass: "tempo_xiaoqiefen",
+          rhythmType: "小切分",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 8,
+          iconClass: "tempo_4",
+          rhythmType: "四",
+          shoushi: "shoushi_qianxiao",
+        },
+        {
+          id: 9,
+          iconClass: "tempo_sanlianyin",
+          rhythmType: "三连音",
+          shoushi: "shoushi_qianxiao",
+        },
       ],
-      another_svg_list: [
-        { id: 10, iconClass: "tempo_fuba" },
-        { id: 11, iconClass: "tempo_bafu" },
-        { id: 12, iconClass: "tempo_baqieba" },
-        { id: 13, iconClass: "tempo_baqieshiliu" },
-        { id: 14, iconClass: "tempo_shiliuqieba" },
-        { id: 15, iconClass: "tempo_shiliuqieshiliu" },
-        { id: 16, iconClass: "tempo_er" },
-        { id: 17, iconClass: "a" },
-        { id: 18, iconClass: "b" },
+      secondList: [
+        {
+          id: 10,
+          iconClass: "a",
+          rhythmType: "二",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "n_f",
+        },
+        {
+          id: 11,
+          iconClass: "tempo_fuba",
+          rhythmType: "附八",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "i_f",
+        },
+        {
+          id: 12,
+          iconClass: "tempo_bafu",
+          rhythmType: "八附",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "j_f",
+        },
+        {
+          id: 13,
+          iconClass: "tempo_baqieba",
+          rhythmType: "八切八",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "k_f",
+        },
+        {
+          id: 14,
+          iconClass: "tempo_baqieshiliu",
+          rhythmType: "八切十六",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "l_f",
+        },
+        {
+          id: 15,
+          iconClass: "tempo_shiliuqieba",
+          rhythmType: "十六切八",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "m_f",
+        },
+        {
+          id: 16,
+          iconClass: "tempo_shiliuqieshiliu",
+          rhythmType: "十六切十六",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "n_f",
+        },
+        {
+          id: 17,
+          iconClass: "tempo_er",
+          rhythmType: "二",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "o_f",
+        },
+        {
+          id: 18,
+          iconClass: "b",
+          rhythmType: "二",
+          shoushi: "shoushi_qianxiao",
+          sketchName: "n_f",
+        },
       ],
     };
   },
@@ -123,7 +231,7 @@ export default {
     },
     removeClass(current_id) {
       //每进入另外一个ul，则先把上一个ul的样式清空
-      current_id = current_id == undefined ? 5 : current_id;
+      current_id = current_id == undefined ? 14 : current_id;
       let history_id = this.$store.state.history_id; //上一个拥有居中放大class的li的id
       //如果选中的li不是上一个居中的li，则把立即把上一个居中的li及它左右的li的样式消除,以及把li里面的svg恢复成默认样式
       if (current_id != history_id) {
@@ -164,6 +272,8 @@ export default {
       $(`#${id}`).next().addClass("li_active_right");
       $(`#${id}`).next().children("svg").addClass("svg_active_left_right");
     },
+  },
+  created() {
   },
   mounted() {
     //默认给第一个ul的第五个li加上居中样式
@@ -225,8 +335,9 @@ export default {
   transition: all 0.4s ease;
 }
 .svg_active {
-  width: 2rem !important;
+  width: 2.15rem !important;
   height: 1.85rem !important;
+  margin-bottom: -0.5rem;
 }
 .svg_active_left_right {
   width: 1.6rem !important;
@@ -285,6 +396,7 @@ export default {
   color: #b7b8bf;
   border-radius: 0.5rem;
   text-align: center;
+  font-family: "微软雅黑";
   & > div {
     cursor: pointer;
   }
@@ -302,7 +414,7 @@ export default {
   animation: dashed-box 0.5s linear;
   border: 5px solid #ff2300 !important;
   & ~ p {
-    color: #535267;
+    color: #464c5b;
   }
 }
 @keyframes dashed-box {
@@ -402,6 +514,7 @@ export default {
   //   transform: scale(1.1, 1.1);
   // }
 }
+/*做li的动效和暂停、播放按钮的切换----end*/
 .training_box_body {
   .flex;
   flex-direction: column;
@@ -472,4 +585,26 @@ export default {
     }
   }
 }
+/*li下面的节奏型及速写，手势*/
+.card_box > ul > li {
+  .li_cxt {
+    text-align: left;
+    margin-left: 0.2rem;
+    .handShape{
+      display: flex;
+      align-items: center;
+    }
+    p {
+      margin: 0.2rem 0;
+      color: #657180;
+      font-size: 0.14rem;
+      white-space:nowrap; 
+    }
+    img {
+      vertical-align: middle;
+    }
+  }
+}
+
+/*li下面的节奏型及速写，手势----end*/
 </style>
