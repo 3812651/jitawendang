@@ -7,10 +7,21 @@ import header from './components/header.vue';
 import VueParticles from 'vue-particles'
 import store from './store'
 import '@/icons'
+import Qs from 'qs'
+import { post, get, del, postStr } from './common/http.js'
 // import $ from 'jquery'
 // Vue.prototype.$ = $;
-Vue.use(ViewUI);
+Vue.prototype.$post = post
+Vue.prototype.$get = get
+Vue.prototype.$del = del
+Vue.prototype.$postStr = postStr
+Vue.prototype.$Qs = Qs
 Vue.use(VueParticles)
+Vue.use(ViewUI);
+Vue.prototype.$Message.config({
+    top: 70,
+    duration: 2
+});
 Vue.config.productionTip = false
 
 let docWidth = document.documentElement.clientWidth

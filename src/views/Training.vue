@@ -6,36 +6,68 @@
       <div class="center"></div>
       <div class="right"></div>
       <div class="card_box">
-        <ul>
+        <ul id="first_ul" v-show="checkIndex == 0">
           <li v-for="item in svg_list" :key="item.iconClass" :id="item.id">
             <svg-icon :iconClass="item.iconClass" class="svg_default" />
-            <svg-icon iconClass="tempo_qianxiao_shoushi"  />
-            <i class="play_btn" v-show="btn_flag" @click="btn_flag=!btn_flag"></i>
-            <i class="pause_btn" v-show="!btn_flag" @click="btn_flag=!btn_flag"></i>
+            <svg-icon iconClass="shoushi_qianxiao" class="svg_default" />
+            <i
+              class="play_btn"
+              v-show="btn_flag"
+              @click="btn_flag = !btn_flag"
+            ></i>
+            <i
+              class="pause_btn"
+              v-show="!btn_flag"
+              @click="btn_flag = !btn_flag"
+            ></i>
+          </li>
+        </ul>
+        <ul id="second_ul" v-show="checkIndex == 1">
+          <li
+            v-for="item in another_svg_list"
+            :key="item.iconClass"
+            :id="item.id"
+          >
+            <svg-icon :iconClass="item.iconClass" class="svg_default" />
+            <svg-icon iconClass="shoushi_qianxiao" class="svg_default" />
+            <i
+              class="play_btn"
+              v-show="btn_flag"
+              @click="btn_flag = !btn_flag"
+            ></i>
+            <i
+              class="pause_btn"
+              v-show="!btn_flag"
+              @click="btn_flag = !btn_flag"
+            ></i>
           </li>
         </ul>
       </div>
     </div>
     <div class="change_tooltip">
-      <div v-for="(item,index) in tooltip_list" :key="item.name" @click="tooltip_click(item,index)">
-        <div class="dashed_box" :class="{isActive:checkIndex==index}">
+      <div
+        v-for="(item, index) in tooltip_list"
+        :key="item.name"
+        @click="tooltip_click(item, index)"
+      >
+        <div class="dashed_box" :class="{ isActive: checkIndex == index }">
           <Icon type="md-basketball" />
         </div>
-        <p>{{item.name}}</p>
+        <p>{{ item.name }}</p>
       </div>
     </div>
   </div>
 </template>
 <script>
 import $ from "jquery";
-
+import { debounce } from "../js/debounce.js";
 export default {
   data() {
     return {
       checkIndex: 0,
       li_index: 4,
-      btn_flag:true,
-      tooltip_list: [{ name: "Colorful" }, { name: "Outline" }],
+      btn_flag: true,
+      tooltip_list: [{ name: "单拍子" }, { name: "复拍子" }],
       svg_list: [
         { id: 1, iconClass: "tempo_28" },
         { id: 2, iconClass: "tempo_816" },
@@ -47,102 +79,145 @@ export default {
         { id: 8, iconClass: "tempo_4" },
         { id: 9, iconClass: "tempo_unknow" },
       ],
+      another_svg_list: [
+        { id: 10, iconClass: "tempo_fuba" },
+        { id: 11, iconClass: "tempo_bafu" },
+        { id: 12, iconClass: "tempo_baqieba" },
+        { id: 13, iconClass: "tempo_baqieshiliu" },
+        { id: 14, iconClass: "tempo_shiliuqieba" },
+        { id: 15, iconClass: "tempo_shiliuqieshiliu" },
+        { id: 16, iconClass: "tempo_er" },
+        { id: 17, iconClass: "a" },
+        { id: 18, iconClass: "b" },
+      ],
     };
   },
   methods: {
     tooltip_click(item, index) {
       this.checkIndex = index;
+      $(`#first_ul`).css({
+        transform: `translateX(0)`,
+        transition: "all .5s ease",
+      });
+      $(`#second_ul`).css({
+        transform: `translateX(0)`,
+        transition: "all .5s ease",
+      });
+      //一进来默认id为14或者5的li居中
+      //根据checkIndex改变历史居中id
+      if (index == 1) {
+        this.removeClass(14);
+        this.addClass(14);
+        this.$store.commit({
+          type: "changeId",
+          id: 14,
+        });
+      } else if (index == 0) {
+        this.removeClass(5);
+        this.addClass(5);
+        this.$store.commit({
+          type: "changeId",
+          id: 5,
+        });
+      }
+    },
+    removeClass(current_id) {
+      //每进入另外一个ul，则先把上一个ul的样式清空
+      current_id = current_id == undefined ? 5 : current_id;
+      let history_id = this.$store.state.history_id; //上一个拥有居中放大class的li的id
+      //如果选中的li不是上一个居中的li，则把立即把上一个居中的li及它左右的li的样式消除,以及把li里面的svg恢复成默认样式
+      if (current_id != history_id) {
+        this.$store.commit({
+          type: "changeId",
+          id: current_id,
+        });
+        let history_li = $(`#${history_id}`);
+        history_li.removeClass("li_active_center");
+        history_li.prev().removeClass("li_active_left");
+        history_li.next().removeClass("li_active_right");
+
+        history_li.children("svg").removeClass("svg_active");
+        history_li.prev().children("svg").removeClass("svg_active_left_right");
+        history_li.next().children("svg").removeClass("svg_active_left_right");
+      }
+      //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
+      if (current_id == 1) {
+        $(`#${current_id}`).removeClass("li_active_left");
+        $(`#${current_id}`)
+          .children("svg")
+          .removeClass("svg_active_left_right");
+      }
+      if (current_id == 18) {
+        $(`#${current_id}`).removeClass("li_active_right");
+        $(`#${current_id}`)
+          .children("svg")
+          .removeClass("svg_active_left_right");
+      }
+    },
+    addClass(id) {
+      $(`#${id}`).addClass("li_active_center");
+      $(`#${id}`).children("svg").addClass("svg_active");
+
+      $(`#${id}`).prev().addClass("li_active_left");
+      $(`#${id}`).prev().children("svg").addClass("svg_active_left_right");
+
+      $(`#${id}`).next().addClass("li_active_right");
+      $(`#${id}`).next().children("svg").addClass("svg_active_left_right");
     },
   },
   mounted() {
-    console.log($("#5").children("svg"));
-    $("#5").addClass("li_active_center");
-    $("#5").children("svg").addClass("svg_active");
-
-    $("#5").prev().addClass("li_active_left");
-    $("#5").prev().children("svg").addClass("svg_active_left_right");
-
-    $("#5").next().addClass("li_active_right");
-    $("#5").next().children("svg").addClass("svg_active_left_right");
+    //默认给第一个ul的第五个li加上居中样式
+    this.addClass(5);
+    window.removeClass = this.removeClass;
+    window.addClass = this.addClass;
     $(function () {
+      // TODO：ul的位置动态变化的的距离
+      function translate(left_overflow_px, ul_name) {
+        $(`#${ul_name}`).css({
+          transform: `translateX(${left_overflow_px}rem)`,
+          transition: "all .5s ease",
+        });
+      }
+      // TODO：li点击事件函数
       function li_click() {
-        let current_id = parseInt($(this).attr("id")), //当前点击li的id
-          //上一个拥有居中放大class的li的id
-          history_id = parseInt($(".li_active_center").attr("id"));
-
-        //如果选中的li不是上一个居中的li，则把立即把上一个居中的li及它左右的li的样式消除
-        //以及把li里面的svg恢复成默认样式
-        if (current_id != history_id) {
-          let history_li = $(`#${history_id}`);
-          history_li.removeClass("li_active_center");
-          history_li.prev().removeClass("li_active_left");
-          history_li.next().removeClass("li_active_right");
-
-          history_li.children("svg").removeClass("svg_active");
-          history_li
-            .prev()
-            .children("svg")
-            .removeClass("svg_active_left_right");
-          history_li
-            .next()
-            .children("svg")
-            .removeClass("svg_active_left_right");
-        }
-
-        //如果是最左或者最右一个li，去除li_active_left或者li_active_right他们的样式
-        if (current_id == 1) {
-          $(this).removeClass("li_active_left");
-          $(this).children("svg").removeClass("svg_active_left_right");
-        }
-        if (current_id == 9) {
-          $(this).removeClass("li_active_right");
-          $(this).children("svg").removeClass("svg_active_left_right");
-        }
+        let current_id = parseInt($(this).attr("id"));
+        window.removeClass(current_id);
         setTimeout(() => {
           //为了保持选中的li居中，让ul的位置动态的变化
-          if (current_id > 4) {
-            // 如果选中的li是第五个及右边，则ul整体往左移动
-            let left_overflow_px = -[(current_id - 5) * 182] / 100;
-            let a = `translateX(${left_overflow_px}rem)`;
-            $(".card_box>ul").css({
-              transform: a,
-              transition: "all .5s ease",
-            });
-          } else {
-            //如果选中的li的id是前四个，则li整体往右移动
+          if (current_id < 5) {
+            //选中的li的id是前四个，则li整体往右移动
             let left_overflow_px = [(5 - current_id) * 182] / 100;
-            let b = `translateX(${left_overflow_px}rem)`;
-            $(".card_box>ul").css({
-              transform: b,
-              transition: "all .5s ease",
-            });
+            translate(left_overflow_px, "first_ul");
+          } else if (current_id > 4 && current_id < 10) {
+            // 选中的li是第五个及右边，则ul整体往左移动
+            let left_overflow_px = -[(current_id - 5) * 182] / 100;
+            translate(left_overflow_px, "first_ul");
+          } else if (current_id > 9 && current_id < 14) {
+            //选择的是第10到14个li
+            let left_overflow_px = [(14 - current_id) * 182] / 100;
+            translate(left_overflow_px, "second_ul");
+          } else {
+            //选择的是第14到18个li
+            let left_overflow_px = -[(current_id - 14) * 182] / 100;
+            translate(left_overflow_px, "second_ul");
           }
         }, 400);
         // 给选中li及左右li，还有里面的svg加上class
         setTimeout(() => {
-          $(this).addClass("li_active_center");
-          $(this).prev().addClass("li_active_left");
-          $(this).next().addClass("li_active_right");
-
-          $(this).children("svg").addClass("svg_active");
-          $(this).prev().children("svg").addClass("svg_active_left_right");
-          $(this).next().children("svg").addClass("svg_active_left_right");
+          window.addClass(current_id);
         }, 900);
       }
-      //防抖
-      require("../js/debounce.js").debounce(li_click);
-      //li点击事件
-      $(".card_box>ul>li").click(li_click);
+      $(".card_box>ul>li").on("click", debounce(li_click));
     });
   },
 };
 </script>
 <style lang="less" scoped>
-@flex: {
+.flex {
   display: flex;
   justify-content: center;
   align-items: center;
-};
+}
 
 .svg_default {
   width: 1.7rem !important;
@@ -218,7 +293,7 @@ export default {
     height: 0.5rem;
     border: 2px dashed #dddde4;
     border-radius: 50%;
-    @flex();
+    .flex;
   }
 }
 
@@ -328,7 +403,7 @@ export default {
   // }
 }
 .training_box_body {
-  @flex();
+  .flex;
   flex-direction: column;
   height: 100%;
   background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);

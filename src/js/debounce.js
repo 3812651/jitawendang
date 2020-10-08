@@ -6,7 +6,10 @@
    * @param  {boolean}  immediate   设置为ture时，是否立即调用函数
    * @return {function}             返回客户调用函数
    */
+
+
   module.exports.debounce = function(func, wait = 1000, immediate = true) {
+
       let timer, context, args;
 
       // 延迟执行函数
