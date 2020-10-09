@@ -10,14 +10,18 @@
           <li v-for="item in firstList" :key="item.iconClass" :id="item.id">
             <svg-icon :iconClass="item.iconClass" class="svg_default" />
             <div class="li_cxt">
-              <p>「节奏型」:{{ item.rhythmType }}</p>
+              <p>
+                「节奏型」: <span> {{ item.rhythmType }} </span>
+              </p>
               <div class="handShape">
                 <p>「手型」:</p>
                 <svg-icon :iconClass="item.shoushi" class="svg_default" />
               </div>
-              <!-- <p><span>「速写」:</span><img :src="item.sketchSrc" /></p> -->
+              <div class="sketch">
+                <p>「速写」:</p>
+                <svg-icon :iconClass="item.sketch" class="svg_default" />
+              </div>
             </div>
-
             <i
               class="play_btn"
               v-show="btn_flag"
@@ -32,11 +36,20 @@
         </ul>
         <ul id="second_ul" v-show="checkIndex == 1">
           <li v-for="item in secondList" :key="item.iconClass" :id="item.id">
-            <svg-icon :iconClass="item.iconClass" class="svg_default" />
-            <div class="li_cxt">
-              <p><span>「节奏型」:</span>{{ item.rhythmType }}</p>
-              <p><span>「手型」:</span><img :src="item.handShapeSrc" /></p>
-              <p><span>「速写」:</span><img :src="item.sketchSrc" /></p>
+            <svg-icon :iconClass="item.iconClass" class="svg_default" v-if="item.id==10||item.id==18" style="width:3.7rem!important;height:3.3rem!important"/>
+            <svg-icon :iconClass="item.iconClass" class="svg_default" v-if="item.id>10&item.id<18"/>
+            <div class="li_cxt" v-if="item.id>10&item.id<18">
+              <p>
+                「节奏型」:<span>{{ item.rhythmType }}</span>
+              </p>
+              <div class="handShape">
+                <p>「手型」:</p>
+                <svg-icon :iconClass="item.shoushi" class="svg_default" />
+              </div>
+              <div class="sketch">
+                <p>「速写」:</p>
+                <svg-icon :iconClass="item.sketch" class="svg_default" />
+              </div>
             </div>
             <!-- <svg-icon iconClass="shoushi_qianxiao" class="svg_default" /> -->
             <i
@@ -82,120 +95,123 @@ export default {
           id: 1,
           iconClass: "tempo_28",
           rhythmType: "二八",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_28",
+          sketch:'shoushi_4'
         },
         {
           id: 2,
           iconClass: "tempo_816",
           rhythmType: "八十六",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_816",
+          sketch:'sketch_816'
         },
         {
           id: 3,
           iconClass: "tempo_168",
           rhythmType: "十六八",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_168",
+          sketch:'sketch_168'
         },
         {
           id: 4,
           iconClass: "tempo_416",
           rhythmType: "四个十六",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_416",
+          sketch:'sketch_416'
         },
         {
           id: 5,
           iconClass: "tempo_qianxiao",
           rhythmType: "前小",
           shoushi: "shoushi_qianxiao",
+          sketch:'sketch_qianxiao'
         },
         {
           id: 6,
           iconClass: "tempo_houxiao",
           rhythmType: "后小",
           shoushi: "shoushi_houxiao",
+          sketch:'sketch_houxiao'
         },
         {
           id: 7,
           iconClass: "tempo_xiaoqiefen",
           rhythmType: "小切分",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_xiaoqiefen",
+          sketch:'sketch_xiaoqiefen'
         },
         {
           id: 8,
           iconClass: "tempo_4",
           rhythmType: "四",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_4",
+          sketch:'sketch_4'
         },
         {
           id: 9,
           iconClass: "tempo_sanlianyin",
           rhythmType: "三连音",
-          shoushi: "shoushi_qianxiao",
+          shoushi: "shoushi_sanlianyin",
+          sketch:'sketch_sanlianyin'
         },
       ],
       secondList: [
         {
           id: 10,
-          iconClass: "a",
-          rhythmType: "二",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "n_f",
+          iconClass: "sapiens",
         },
         {
           id: 11,
           iconClass: "tempo_fuba",
           rhythmType: "附八",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "i_f",
+          shoushi: "shoushi_fuba",
+          sketch: "sketch_fuba",
         },
         {
           id: 12,
           iconClass: "tempo_bafu",
           rhythmType: "八附",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "j_f",
+          shoushi: "shoushi_bafu",
+          sketch: "sketch_bafu",
         },
         {
           id: 13,
           iconClass: "tempo_baqieba",
           rhythmType: "八切八",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "k_f",
+          shoushi: "shoushi_8-8",
+          sketch: "sketch_8-8",
         },
         {
           id: 14,
           iconClass: "tempo_baqieshiliu",
           rhythmType: "八切十六",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "l_f",
+          shoushi: "shoushi_8-16",
+          sketch: "sketch_8-16",
         },
         {
           id: 15,
-          iconClass: "tempo_shiliuqieba",
+          iconClass: "tempo_16-8",
           rhythmType: "十六切八",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "m_f",
+          shoushi: "shoushi_16-8",
+          sketch: "sketch_16-8",
         },
         {
           id: 16,
-          iconClass: "tempo_shiliuqieshiliu",
+          iconClass: "tempo_16-16",
           rhythmType: "十六切十六",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "n_f",
+          shoushi: "shoushi_16-16",
+          sketch: "sketch_16-16",
         },
         {
           id: 17,
-          iconClass: "tempo_er",
+          iconClass: "tempo_2",
           rhythmType: "二",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "o_f",
+          shoushi: "shoushi_2",
+          sketch: "sketch_2",
         },
         {
           id: 18,
-          iconClass: "b",
-          rhythmType: "二",
-          shoushi: "shoushi_qianxiao",
-          sketchName: "n_f",
+          iconClass: "sapiens",
         },
       ],
     };
@@ -273,8 +289,7 @@ export default {
       $(`#${id}`).next().children("svg").addClass("svg_active_left_right");
     },
   },
-  created() {
-  },
+  created() {},
   mounted() {
     //默认给第一个ul的第五个li加上居中样式
     this.addClass(5);
@@ -397,6 +412,7 @@ export default {
   border-radius: 0.5rem;
   text-align: center;
   font-family: "微软雅黑";
+  font-size: 0.12rem;
   & > div {
     cursor: pointer;
   }
@@ -587,18 +603,27 @@ export default {
 }
 /*li下面的节奏型及速写，手势*/
 .card_box > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .li_cxt {
-    text-align: left;
-    margin-left: 0.2rem;
-    .handShape{
+    width: 1.3rem;
+    .sketch,
+    .handShape {
       display: flex;
       align-items: center;
     }
+    .sketch{
+      margin-top: -.3rem;
+    }
     p {
-      margin: 0.2rem 0;
+      // margin: .1rem 0;
       color: #657180;
       font-size: 0.14rem;
-      white-space:nowrap; 
+      white-space: nowrap;
+      span {
+        margin-left: 0.1rem;
+      }
     }
     img {
       vertical-align: middle;
