@@ -6,7 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         checkIndex: 1,
-        history_id: 5
+        history_id: 5,
     },
     mutations: {
         changeIndex(state, payload) {

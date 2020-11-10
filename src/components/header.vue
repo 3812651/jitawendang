@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      checkIndex: window.localStorage.getItem("checkIndex")==null?1:window.localStorage.getItem("checkIndex"),
+      checkIndex: window.localStorage.getItem("checkIndex"),
       nav_list: [
         { name: "社区", url: "/Community" },
         { name: "训练", url: "/Training" },

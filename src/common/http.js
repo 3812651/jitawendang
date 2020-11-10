@@ -46,10 +46,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
             // 隐藏进度条
             NProgress.done()
-            if (res.data.code == '0000') {
+            if (res.data.err_code == '0') {
                 return res.data
             } else {
-                error(res.data.message)
+                error(res.data.msg)
                 return false
             }
         },

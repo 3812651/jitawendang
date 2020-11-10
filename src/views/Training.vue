@@ -211,7 +211,7 @@ export default {
         },
         {
           id: 18,
-          iconClass: "sapiens",
+          iconClass: "sapiens2",
         },
       ],
     };

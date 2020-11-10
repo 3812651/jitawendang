@@ -1,26 +1,40 @@
 <template>
   <Card :bordered="false" class="login_card">
     <p slot="title">Register</p>
-    <Form ref="formInline" :model="formInline" :rules="ruleInline">
-      <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="Username">
+    <Form ref="registerForm" :model="registerForm" :rules="ruleInline">
+      <FormItem prop="username">
+        <Input type="text" v-model="registerForm.username" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password">
+        <Input
+          type="password"
+          v-model="registerForm.password"
+          placeholder="Password"
+        >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.confirm_password" placeholder="confirm_password">
+        <Input
+          type="password"
+          v-model="confirm_password"
+          placeholder="confirm_password"
+        >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')" shape="circle" long>注册</Button>
+        <Button
+          type="primary"
+          @click="handleSubmit('registerForm')"
+          shape="circle"
+          long
+          >注册</Button
+        >
       </FormItem>
-      <p style="font-size:14px">
+      <p style="font-size: 14px">
         已有账号?
         <a href @click.prevent="sonclick">登录</a>
       </p>
@@ -29,16 +43,18 @@
 </template>
 
 <script>
+import api from "../../common/api.js";
+
 export default {
   data() {
     return {
-      formInline: {
-        user: "",
+      registerForm: {
+        username: "",
         password: "",
-        confirm_password: "",
       },
+      confirm_password: "",
       ruleInline: {
-        user: [
+        username: [
           {
             required: true,
             message: "Please fill in the user name",
@@ -59,14 +75,24 @@ export default {
           },
         ],
       },
-      view:'Login'
+      view: "Login",
     };
   },
   methods: {
     handleSubmit(name) {
-      this.$refs[name].validate((valid) => {
+      this.$refs[name].validate(async (valid) => {
         if (valid) {
-          this.$Message.success("Success!");
+          if (this.registerForm.password == this.confirm_password) {
+            let res = await this.$post({
+              url: api.register,
+              data: this.registerForm,
+            });
+            if (res) {
+              this.$Message.success("Success!");
+            }
+          } else {
+            this.$Message.error("两次密码不一致!");
+          }
         } else {
           this.$Message.error("Fail!");
         }
@@ -86,13 +112,13 @@ export default {
   justify-content: center;
   align-items: center;
 };
-/deep/.ivu-card-head{
-  border-bottom:none ;
+/deep/.ivu-card-head {
+  border-bottom: none;
 }
 .login_card {
   p {
     text-align: center;
-    color: #29282A;
+    color: #29282a;
     font-size: 18px;
     a {
       cursor: pointer;

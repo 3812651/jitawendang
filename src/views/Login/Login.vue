@@ -1,25 +1,40 @@
 <template>
   <Card :bordered="false" class="login_card">
     <p slot="title">Sign in</p>
-    <Form ref="formInline" :model="formInline" :rules="ruleInline" class="login_form">
-      <FormItem prop="user">
-        <Input type="text" v-model="formInline.user" placeholder="Username">
+    <Form
+      ref="loginForm"
+      :model="loginForm"
+      :rules="ruleInline"
+      class="login_form"
+    >
+      <FormItem prop="username">
+        <Input type="text" v-model="loginForm.username" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password">
+        <Input
+          type="password"
+          v-model="loginForm.password"
+          placeholder="Password"
+        >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem id="checkbox_item">
-        <Checkbox :checked.sync="single">记住我</Checkbox>
+        <Checkbox v-model="checked">记住我</Checkbox>
         <router-link to="/Login">忘记密码?</router-link>
       </FormItem>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')" shape="circle" long>登录</Button>
+        <Button
+          type="primary"
+          @click="handleSubmit('loginForm')"
+          shape="circle"
+          long
+          >登录</Button
+        >
       </FormItem>
-      <p style="font-size:14px">
+      <p style="font-size: 14px">
         New to Here?
         <a href @click.prevent="sonclick">注册</a>
       </p>
@@ -28,16 +43,19 @@
 </template>
 
 <script>
-import api from '../../common/api.js'
+import api from "../../common/api.js";
+import { writeToken, readToken, deleteToken } from "@/common/cookie";
+import jwtDecode from "jwt-decode";
+
 export default {
   data() {
     return {
-      formInline: {
-        user: "",
+      loginForm: {
+        username: "",
         password: "",
       },
       ruleInline: {
-        user: [
+        username: [
           {
             required: true,
             message: "Please fill in the user name",
@@ -58,23 +76,41 @@ export default {
           },
         ],
       },
-      single: true,
+      checked: window.localStorage.getItem("checked"),
       view: "Register",
     };
   },
+  beforeCreate(){
+    window.localStorage.setItem("checked", true)
+
+  },
+  created() {
+    console.log(window.localStorage.getItem("checked"));
+    if (readToken()) {
+      this.loginForm.username = jwtDecode(readToken()).username;
+      this.loginForm.password = jwtDecode(readToken()).password;
+    }
+  },
   methods: {
     handleSubmit(name) {
-      this.$refs[name].validate((valid) => {
+      //是否记住登录信息
+      window.localStorage.setItem("checked", this.checked);
+
+      this.$refs[name].validate(async (valid) => {
         if (valid) {
-          console.log(this.formInline);
-          this.$post(api.login, this.$Qs.stringify(this.formInline))
-            .then((res) => {
-              window.localStorage.setItem("token", res.data.token);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-          this.$Message.success("Success!");
+          // console.log(this.loginForm);
+          let res = await this.$post({
+            url: api.login,
+            data: this.loginForm,
+          });
+          // console.log(res);
+          if (res) {
+            this.checked == true
+              ? writeToken(res.token)
+              : deleteToken(res.token);
+            this.$Message.success("登录成功!");
+            window.localStorage.setItem("token", res.token);
+          }
         } else {
           this.$Message.error("Fail!");
         }

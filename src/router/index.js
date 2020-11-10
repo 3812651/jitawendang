@@ -7,12 +7,14 @@ import Layout from '../views/Login/Layout.vue'
 import Login from '../views/Login/Login.vue'
 import Training from '../views/Training.vue'
 import Document from '../views/Document/index.vue'
+import Community from '../views/Community/index.vue'
 
 
 const routes = [
     { path: '/', redirect: '/Training', },
     { path: '/Training', component: Training },
     { path: '/Document', component: Document },
+    { path: '/Community', component: Community },
     {
         path: '/Layout',
         component: Layout,
