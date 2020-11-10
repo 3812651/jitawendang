@@ -5,7 +5,7 @@
         <div class="card_bg"></div>
         <div slot="title" class="title">
           <span>Built for EveryOne</span>
-          <router-link :to="routePath">返回首页</router-link>
+          <a @click="goBack">返回首页</a>
         </div>
         <div class="content_text">
           <h1>分享知识才能走的更远</h1>
@@ -39,31 +39,13 @@ export default {
       routePath:''
     };
   },
-  mounted(){
-    let index = parseInt(window.localStorage.getItem("checkIndex"))
-    switch(index){
-      case 0:{
-         this.routePath = '/Community'
-         break
-      }
-      case 1:{
-        this.routePath = '/Training'
-         break
-      }
-      case 2:{
-         this.routePath = '/Document'
-         break
-      }
-      case 3:{
-        this.routePath = '/Mine'
-        break
-      }
-    }
-  },
   methods: {
     show(data) {
       this.view = data;
     },
+    goBack(){
+      this.$router.go(-1)
+    }
   },
 };
 </script>

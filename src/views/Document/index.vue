@@ -73,7 +73,7 @@ export default {
 }
 .document_box {
   width: 100%;
-  height: (100vh - 0.6rem);
+  height: 100vh;
   display: flex;
   overflow: hidden;
   padding: 0.8rem 1.74rem 0;
