@@ -11,7 +11,7 @@ import Community from '../views/Community/index.vue'
 
 
 const routes = [
-    { path: '/', redirect: '/Training', },
+    { path: '/', redirect: '/Community', },
     { path: '/Training', component: Training },
     { path: '/Document', component: Document },
     { path: '/Community', component: Community },
