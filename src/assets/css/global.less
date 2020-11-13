@@ -1,3 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    background-image: linear-gradient(135deg, #43cbff 10%, #9708cc 100%);
+    overflow: auto;
+}
+
+ul {
+    list-style: none;
+
+    li {
+        cursor: pointer;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+html::-webkit-scrollbar {
+    width: 0.08rem;
+    height: 0.08rem;
+    background-color: #bce0f0;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #2d8cf0;
+    border-radius: 0.08rem;
+}
 @14px: {
     font-size: 0.14rem;
 }
@@ -11,7 +43,6 @@
     display: flex;
     flex-direction: column;
 }
-
 /*card公共样式*/
 .card {
     width: 100%;
