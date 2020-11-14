@@ -1,17 +1,19 @@
 <template>
-    <div>
-        <h1>444</h1>
-    </div>
+<Card class="card"></Card>
 </template>
+
 <script>
 export default {
-    data(){
-        return{
+    data() {
+        return {
 
         }
     }
 }
 </script>
-<style lang="less" scoped>
 
+<style lang="less" scoped>
+.card {
+    min-height: 700px;
+}
 </style>

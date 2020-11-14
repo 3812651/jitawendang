@@ -1,6 +1,6 @@
 <template>
 <div class="main-header-box">
-    <header class="main-header main-header visible">
+    <header class="main-header main-header " :class="{visible:showHeader}">
         <div class="header">
             <div class="logo">
                 <span>Logo</span>
@@ -20,6 +20,7 @@
 export default {
     data() {
         return {
+            showHeader: true,
             checkIndex: window.localStorage.getItem("checkIndex") == null ? 0 : window.localStorage.getItem("checkIndex"),
             nav_list: [{
                     name: "社区",
@@ -50,7 +51,18 @@ export default {
                 path: item.url
             });
         },
+        handleScroll() {
+            const top = document.documentElement.scrollTop;
+            top > 30 ? this.showHeader = false : this.showHeader = true
+        },
     },
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll)
+    },
+    // 离开该页面需要移除这个监听的事件
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll)
+    }
 };
 </script>
 

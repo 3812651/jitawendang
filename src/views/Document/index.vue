@@ -63,13 +63,13 @@ export default {
 
 .v-enter-active,
 .v-leave-active {
-    transition: all 0.5s;
+    transition: all 0.4s;
 }
 
 .v-enter,
 .v-leave-to {
     opacity: 0;
-    transform: translateY(150px);
+    // transform: translateX(100px);
 }
 
 .container {

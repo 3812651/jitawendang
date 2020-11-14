@@ -56,6 +56,19 @@
                 </div>
             </div>
         </div>
+        <div class="article-suspended-panel">
+            <div class="like-btn panel-btn like-adjust with-badge" badge="174"></div>
+            <div class="comment-btn panel-btn comment-adjust with-badge" badge="109"></div>
+            <div class="collect-btn panel-btn">
+                <!---->
+            </div>
+            <div class="share-title">分享</div>
+            <div class="weibo-btn share-btn panel-btn"></div>
+            <div class="qq-btn share-btn panel-btn"></div>
+            <div class="wechat-btn share-btn panel-btn">
+                <img src="" class="wechat-qr-code-img shadow" style="display:none;">
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -78,6 +91,109 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/publicVar.less";
+
+.article-suspended-panel {
+    position: fixed;
+    margin-left: -.7rem;
+    top: 2.3rem;
+
+    .share-title {
+        margin: .25rem 0 .1rem;
+        font-size: .1rem;
+        text-align: center;
+        color: #c6c6c6;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .panel-btn.like-btn.like-adjust {
+        background-position: 53% 46%;
+    }
+
+    .panel-btn.comment-btn.comment-adjust {
+        background-position: 50% 55%;
+    }
+
+    .panel-btn.like-btn {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDE2IDE1Ij4KICAgIDxwYXRoIGZpbGw9IiNCMkJBQzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTIuODc0IDYuMDQ0VjE1aC0xLjczQy41MTMgMTUgMCAxNC4zODIgMCAxMy42MjRWNy41MjljMC0uNzkuNTM1LTEuNDg1IDEuMTQzLTEuNDg1aDEuNzMxek03LjYwNyAxLjI1QzcuNzIuNTA3IDguMzQ0LS4wMTMgOS4wMyAwYy45OC4wMTkgMS41NjMuODMzIDEuNzY2IDEuMjM1LjM3LjczNS4zOCAxLjk0Ni4xMjYgMi43MjQtLjIzLjcwNC0uNzYxIDEuNjI5LS43NjEgMS42MjloMy45ODJjLjQyIDAgLjgxMS4yMDYgMS4wNzIuNTYzYTEuNSAxLjUgMCAwIDEgLjIzMiAxLjI3MmwtMS44MDEgNi41MTNjLS4xNjQuNjI3LS43MDcgMS4wNjQtMS4zMiAxLjA2NEg0LjVWNS44OThDNi4yOTkgNS41MSA3LjQwNCAyLjU5IDcuNjA3IDEuMjQ5eiIvPgo8L3N2Zz4K);
+    }
+
+    .panel-btn.like-btn:hover {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNSIgdmlld0JveD0iMCAwIDE2IDE1Ij4KICAgIDxwYXRoIGZpbGw9IiM4QTkzQTAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTIuODc0IDYuMDQ0VjE1aC0xLjczQy41MTMgMTUgMCAxNC4zODIgMCAxMy42MjRWNy41MjljMC0uNzkuNTM1LTEuNDg1IDEuMTQzLTEuNDg1aDEuNzMxek03LjYwNyAxLjI1QzcuNzIuNTA3IDguMzQ0LS4wMTMgOS4wMyAwYy45OC4wMTkgMS41NjMuODMzIDEuNzY2IDEuMjM1LjM3LjczNS4zOCAxLjk0Ni4xMjYgMi43MjQtLjIzLjcwNC0uNzYxIDEuNjI5LS43NjEgMS42MjloMy45ODJjLjQyIDAgLjgxMS4yMDYgMS4wNzIuNTYzYTEuNSAxLjUgMCAwIDEgLjIzMiAxLjI3MmwtMS44MDEgNi41MTNjLS4xNjQuNjI3LS43MDcgMS4wNjQtMS4zMiAxLjA2NEg0LjVWNS44OThDNi4yOTkgNS41MSA3LjQwNCAyLjU5IDcuNjA3IDEuMjQ5eiIvPgo8L3N2Zz4K);
+    }
+
+    .panel-btn.comment-btn {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDE0IDEzIj4KICAgIDxwYXRoIGZpbGw9IiNCMkJBQzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0IDB2OS4yM0g4LjgxNUwzLjM3IDEzVjkuMjNIMFYweiIvPgo8L3N2Zz4K);
+    }
+
+    .panel-btn.comment-btn:hover {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxMyIgdmlld0JveD0iMCAwIDE0IDEzIj4KICAgIDxwYXRoIGZpbGw9IiM4QTkzQTAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0IDB2OS4yM0g4LjgxNUwzLjM3IDEzVjkuMjNIMFYweiIvPgo8L3N2Zz4K);
+    }
+
+    .panel-btn.collect-btn {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNyIgaGVpZ2h0PSIxNyIgdmlld0JveD0iMCAwIDE3IDE3Ij4KICAgIDxwYXRoIGZpbGw9IiNCMkJBQzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTkuMzMyIDE0Ljk2OGMtLjQ2LS4yNTUtMS4yMDUtLjI1NS0xLjY2NiAwTDQuMzUgMTYuNzk0Yy0uOTIxLjUwNi0xLjUyMy4wNDQtMS4zNDktMS4wMjdsLjYzNS0zLjg2N2MuMDg4LS41MzctLjE0Mi0xLjI4LS41MTYtMS42NkwuNDM2IDcuNWMtLjc0NS0uNzYtLjUxMS0xLjUwNC41MTYtMS42NmwzLjcwNy0uNTY0Yy41MTQtLjA4IDEuMTE5LS41MzggMS4zNDgtMS4wMjdMNy42NjUuNzMxYy40NjItLjk3NiAxLjIwOC0uOTczIDEuNjY3IDBsMS42NiAzLjUxOWMuMjMuNDg5LjgzMy45NSAxLjM0OSAxLjAyN2wzLjcwOC41NjRjMS4wMjkuMTU2IDEuMjU4LjkwMi41MTUgMS42NmwtMi42ODUgMi43MzljLS4zNzIuMzgtLjYwMyAxLjEyMy0uNTE1IDEuNjZsLjYzNCAzLjg2N2MuMTc2IDEuMDc0LS40MyAxLjUzMy0xLjM0OCAxLjAyN2wtMy4zMTgtMS44MjZ6Ii8+Cjwvc3ZnPgo=);
+    }
+
+    .panel-btn.collect-btn:hover {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNyIgaGVpZ2h0PSIxNyIgdmlld0JveD0iMCAwIDE3IDE3Ij4KICAgIDxwYXRoIGZpbGw9IiM4QTkzQTAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTkuMzMyIDE0Ljk2OGMtLjQ2LS4yNTUtMS4yMDUtLjI1NS0xLjY2NiAwTDQuMzUgMTYuNzk0Yy0uOTIxLjUwNi0xLjUyMy4wNDQtMS4zNDktMS4wMjdsLjYzNS0zLjg2N2MuMDg4LS41MzctLjE0Mi0xLjI4LS41MTYtMS42NkwuNDM2IDcuNWMtLjc0NS0uNzYtLjUxMS0xLjUwNC41MTYtMS42NmwzLjcwNy0uNTY0Yy41MTQtLjA4IDEuMTE5LS41MzggMS4zNDgtMS4wMjdMNy42NjUuNzMxYy40NjItLjk3NiAxLjIwOC0uOTczIDEuNjY3IDBsMS42NiAzLjUxOWMuMjMuNDg5LjgzMy45NSAxLjM0OSAxLjAyN2wzLjcwOC41NjRjMS4wMjkuMTU2IDEuMjU4LjkwMi41MTUgMS42NmwtMi42ODUgMi43MzljLS4zNzIuMzgtLjYwMyAxLjEyMy0uNTE1IDEuNjZsLjYzNCAzLjg2N2MuMTc2IDEuMDc0LS40MyAxLjUzMy0xLjM0OCAxLjAyN2wtMy4zMTgtMS44MjZ6Ii8+Cjwvc3ZnPgo=);
+    }
+
+    .panel-btn.weibo-btn {
+        background-image: url(//s3.pstatp.com/toutiao/xitu_juejin_web/img/weibo.2076a57.svg);
+    }
+
+    .panel-btn.weibo-btn:hover {
+        background-image: url(//s3.pstatp.com/toutiao/xitu_juejin_web/img/weibo-hover.9abf502.svg);
+    }
+
+    .panel-btn.qq-btn {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE1IDE2Ij4KICAgIDxwYXRoIGZpbGw9IiNCMkJBQzIiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjQ2OCAxMC4zMTJjLS4wMS0uOTU3LS4zOC0xLjQ3Ni0uODA3LTIuMTUzLS4xOTEtLjI4My0uNDEzLS40NzMtLjYwNS0uNzU1LS4wMy0uMTU0LjAzMy0uMjY4LS4wMTItLjY3MS0uMDQyLS42MDQtLjI2My0uODM4LS4zMS0uOTEyLjAyLS4xNi0uMDQzLTEuNDg1LS41MjMtMi4yNjhDMTAuNzUxLjk0MSA3Ljk4Mi44NDYgNy42NDMuODQ0SDcuNjRjLS4zMzkuMDAyLTMuMTA3LjA5Ny00LjU2OCAyLjcxLS40NzkuNzgyLS41NDMgMi4xMDYtLjUyMyAyLjI2Ny0uMDQ2LjA3NC0uMjY3LjMwOC0uMzEuOTEyLS4wNDQuNDAzLjAxOC41MTctLjAxMi42Ny0uMTkyLjI4NC0uNDEzLjQ3My0uNjA1Ljc1Ni0uNDI2LjY3Ny0uNzk3IDEuMTk2LS44MDYgMi4xNTMtLjAwNy43MTQuMTYyIDEuNjg3LjY2MyAxLjcuMTU4LS4wMTIuMjkyLS4xMTcuNTY2LS40MjQuMDgyLS4wOTIuMzctLjQ4LjQyOS0uNTg3LjA1Ni4xNDguMTkgMS4xODMgMS4xMiAxLjcyMy0uOTU2LjQ1LTEuNDI0LjczNS0xLjQ0IDEuMzE5LjAyLjMzOC40MjMuNzg3IDEuMTY1Ljk5NmE2LjA1IDYuMDUgMCAwIDAgMi45MjcuMDVjLjUzNS0uMTMuNjk2LS4yNiAxLjM5Ni0uNjQ0LjcuMzg1Ljg2LjUxNCAxLjM5NS42NDNhNi4wNTIgNi4wNTIgMCAwIDAgMi45MjctLjA0OWMuNzQyLS4yMDkgMS4xNDYtLjY1OCAxLjE2Ni0uOTk2LS4wMTYtLjU4NC0uNDg0LS44Ny0xLjQ0LTEuMzIuOTMtLjUzOCAxLjA2My0xLjU3NCAxLjEyLTEuNzIyLjA1OC4xMDcuMzQ2LjQ5NS40MjguNTg3LjI3NC4zMDcuNDA5LjQxMi41NjcuNDI0LjUtLjAxMy42Ny0uOTg2LjY2My0xLjd6Ii8+Cjwvc3ZnPgo=);
+    }
+
+    .panel-btn.qq-btn:hover {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNSIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE1IDE2Ij4KICAgIDxwYXRoIGZpbGw9IiM1NUIyRjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTE0LjQ2OCAxMC4zMTJjLS4wMS0uOTU3LS4zOC0xLjQ3Ni0uODA3LTIuMTUzLS4xOTEtLjI4My0uNDEzLS40NzMtLjYwNS0uNzU1LS4wMy0uMTU0LjAzMy0uMjY4LS4wMTItLjY3MS0uMDQyLS42MDQtLjI2My0uODM4LS4zMS0uOTEyLjAyLS4xNi0uMDQzLTEuNDg1LS41MjMtMi4yNjhDMTAuNzUxLjk0MSA3Ljk4Mi44NDYgNy42NDMuODQ0SDcuNjRjLS4zMzkuMDAyLTMuMTA3LjA5Ny00LjU2OCAyLjcxLS40NzkuNzgyLS41NDMgMi4xMDYtLjUyMyAyLjI2Ny0uMDQ2LjA3NC0uMjY3LjMwOC0uMzEuOTEyLS4wNDQuNDAzLjAxOC41MTctLjAxMi42Ny0uMTkyLjI4NC0uNDEzLjQ3My0uNjA1Ljc1Ni0uNDI2LjY3Ny0uNzk3IDEuMTk2LS44MDYgMi4xNTMtLjAwNy43MTQuMTYyIDEuNjg3LjY2MyAxLjcuMTU4LS4wMTIuMjkyLS4xMTcuNTY2LS40MjQuMDgyLS4wOTIuMzctLjQ4LjQyOS0uNTg3LjA1Ni4xNDguMTkgMS4xODMgMS4xMiAxLjcyMy0uOTU2LjQ1LTEuNDI0LjczNS0xLjQ0IDEuMzE5LjAyLjMzOC40MjMuNzg3IDEuMTY1Ljk5NmE2LjA1IDYuMDUgMCAwIDAgMi45MjcuMDVjLjUzNS0uMTMuNjk2LS4yNiAxLjM5Ni0uNjQ0LjcuMzg1Ljg2LjUxNCAxLjM5NS42NDNhNi4wNTIgNi4wNTIgMCAwIDAgMi45MjctLjA0OWMuNzQyLS4yMDkgMS4xNDYtLjY1OCAxLjE2Ni0uOTk2LS4wMTYtLjU4NC0uNDg0LS44Ny0xLjQ0LTEuMzIuOTMtLjUzOCAxLjA2My0xLjU3NCAxLjEyLTEuNzIyLjA1OC4xMDcuMzQ2LjQ5NS40MjguNTg3LjI3NC4zMDcuNDA5LjQxMi41NjcuNDI0LjUtLjAxMy42Ny0uOTg2LjY2My0xLjd6Ii8+Cjwvc3ZnPgo=);
+    }
+
+    .panel-btn.wechat-btn {
+        background-image: url(//s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat.63e1ce0.svg);
+    }
+
+    .panel-btn.wechat-btn:hover {
+        background-image: url(//s3.pstatp.com/toutiao/xitu_juejin_web/img/wechat-hover.c8ce019.svg);
+    }
+
+    .panel-btn {
+        position: relative;
+        margin-bottom: .075rem;
+        width: .3rem;
+        height: .3rem;
+        background-color: #fff;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .04);
+        cursor: pointer;
+    }
+
+    .panel-btn.with-badge:after {
+        content: attr(badge);
+        position: absolute;
+        top: 0;
+        left: 75%;
+        padding: .01rem .04rem;
+        font-size: .1rem;
+        text-align: center;
+        line-height: 1;
+        white-space: nowrap;
+        color: #fff;
+        background-color: #b2bac2;
+        border-radius: .07rem;
+        transform-origin: left top;
+        transform: scale(.75);
+    }
+}
 
 .author-block {
     .block-body {

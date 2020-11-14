@@ -585,7 +585,7 @@ export default {
     .training_box {
         position: relative;
         width: 100%;
-        height: calc(100vh - 0.6rem);
+        height: calc(100vh - 0.9rem);
         overflow: hidden;
 
         // background-color: #e6e9f0;

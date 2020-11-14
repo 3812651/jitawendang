@@ -1,12 +1,15 @@
 <template>
 <div class="postList">
-    <Card class="card">
-        <Menu mode="horizontal" active-name="hot" @on-select="menuChange">
-            <MenuItem name="hot">
-            <Icon type="md-bonfire" />热门</MenuItem>
-            <MenuItem name="new">
-            <Icon type="md-alarm" />最新</MenuItem>
-        </Menu>
+    <Card class="postListCard">
+        <Affix>
+            <Menu mode="horizontal" active-name="hot" @on-select="menuChange">
+                <MenuItem name="hot">
+                <Icon type="md-bonfire" />热门</MenuItem>
+                <MenuItem name="new">
+                <Icon type="md-alarm" />最新</MenuItem>
+                <Button type="primary" class="post-btn" style="background-color:#007FFF" @click="modal1=true">写文章</Button>
+            </Menu>
+        </Affix>
         <div class="itemList" v-for="item in list" :key="item.id">
             <div class="context-box">
                 <div class="info-box">
@@ -42,6 +45,16 @@
             </div>
         </div>
     </Card>
+    <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="50%">
+        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+            <FormItem label="文章标题" prop="title">
+                <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
+            </FormItem>
+            <FormItem label="文章简介" prop="brief">
+                <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
+            </FormItem>
+        </Form>
+    </Modal>
 </div>
 </template>
 
@@ -76,8 +89,52 @@ export default {
                     url: "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
                     tag: "乐理",
                 },
+                {
+                    id: 3,
+                    username: "D2前端技术论坛",
+                    date: "14天前",
+                    title: "第十五届 D2 前端技术论坛",
+                    description: "前端热爱，技术无界，我们云端相聚",
+                    url: "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
+                    tag: "视唱练耳",
+                },
+                {
+                    id: 4,
+                    username: "掘金酱",
+                    date: "2天前",
+                    title: "掘友福利｜参与活动MySQL书免费送了！",
+                    description: "掘金社区畅销小册精彩积淀！《MySQL是怎样运行的：从根儿上理解MySQL》终于面世啦！",
+                    url: "https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/663b227f6f8b4f249ce44d9c6042c557~tplv-k3u1fbpfcp-watermark.image",
+                    tag: "视唱练耳",
+                },
+                {
+                    id: 5,
+                    username: "D2前端技术论坛",
+                    date: "14天前",
+                    title: "第十五届 D2 前端技术论坛",
+                    description: "前端热爱，技术无界，我们云端相聚",
+                    url: "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
+                    tag: "乐理",
+                },
             ],
             view: "",
+            modal1: false, //是否显示发帖对话框
+            formValidate: { //发帖表单数据对象
+                title: '',
+                brief: ''
+            },
+            ruleValidate: { //发帖表单验证规则
+                title: [{
+                    required: true,
+                    message: '文章标题不能为空',
+                    trigger: 'blur'
+                }],
+                brief: [{
+                    required: true,
+                    message: '文章简介不能为空',
+                    trigger: 'blur'
+                }]
+            }
         };
     },
     methods: {
@@ -89,8 +146,14 @@ export default {
             this.$router.push({
                 path: `/Community/postRead/${id}`
             })
+        },
+        ok() {
+            this.$Message.info('Clicked ok');
+        },
+        cancel() {
+            this.$Message.info('Clicked cancel');
         }
-    },
+    }
 };
 </script>
 
@@ -104,6 +167,18 @@ ul {
 
 li {
     list-style: none;
+}
+
+.post-btn {
+    position: absolute;
+    z-index: 9999;
+    top: .14rem;
+    right: .08rem;
+}
+
+//图钉阴影
+/deep/.ivu-affix {
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .05);
 }
 
 .action-list>.item.clickable:hover {
@@ -269,22 +344,15 @@ li {
 }
 
 .postList {
-    height: 100vh;
     @margin-auto();
 
-    // padding: 0.8rem 2.54rem 0;
-    .card {
-        height: 100%;
-        overflow-y: scroll;
-    }
-
-    .card::-webkit-scrollbar {
+    .postListCard::-webkit-scrollbar {
         width: 0.08rem;
         height: 0.08rem;
         background-color: #bce0f0;
     }
 
-    .card::-webkit-scrollbar-thumb {
+    .postListCard::-webkit-scrollbar-thumb {
         background-color: #2d8cf0;
         border-radius: 0.08rem;
     }
