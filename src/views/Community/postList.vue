@@ -1,65 +1,75 @@
 <template>
-<div class="postList">
-    <Card class="postListCard">
-        <Affix>
-            <Menu mode="horizontal" active-name="hot" @on-select="menuChange">
-                <MenuItem name="hot">
-                <Icon type="md-bonfire" />热门</MenuItem>
-                <MenuItem name="new">
-                <Icon type="md-alarm" />最新</MenuItem>
-                <Button type="primary" class="post-btn" style="background-color:#007FFF" @click="modal1=true">写文章</Button>
-            </Menu>
-        </Affix>
-        <div class="itemList" v-for="item in list" :key="item.id">
-            <div class="context-box">
-                <div class="info-box">
-                    <div class="meta-row">
-                        <ul class="meta-list">
-                            <li class="meta-item username">{{ item.username }}</li>
-                            <li class="meta-item date">{{ item.date }}</li>
-                            <li class="meta-item tag">{{ item.tag }}</li>
-                        </ul>
+<div class="postList-box">
+    <div class="postList">
+        <Card>
+            <Affix>
+                <Menu mode="horizontal" active-name="hot" @on-select="menuChange">
+                    <MenuItem name="hot">
+                    <Icon type="md-bonfire" />热门</MenuItem>
+                    <MenuItem name="new">
+                    <Icon type="md-alarm" />最新</MenuItem>
+                    <Button type="primary" class="post-btn" style="background-color:#007FFF" @click="modal1=true">写文章</Button>
+                </Menu>
+            </Affix>
+            <div class="itemList" v-for="item in list" :key="item.id">
+                <div class="context-box">
+                    <div class="info-box">
+                        <div class="meta-row">
+                            <ul class="meta-list">
+                                <li class="meta-item username">{{ item.username }}</li>
+                                <li class="meta-item date">{{ item.date }}</li>
+                                <li class="meta-item tag">{{ item.tag }}</li>
+                            </ul>
+                        </div>
+                        <div class="info-row title-row">
+                            <a class="title" @click="postRead(item.id)">{{item.title}}</a>
+                            <div class="description">{{ item.description }}</div>
+                        </div>
+                        <div class="action-row">
+                            <ul class="action-list">
+                                <li class="item like clickable">
+                                    <a href="" class="title-box">
+                                        <Icon color="#b2bac2" type="md-thumbs-up" />
+                                        <span class="count">222</span>
+                                    </a>
+                                </li>
+                                <li class="item comment clickable">
+                                    <a href="" class="title-box">
+                                        <Icon color="#b2bac2" type="md-text" />
+                                        <span class="count">77</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="info-row title-row">
-                        <a class="title" @click="postRead(item.id)">{{item.title}}</a>
-                        <div class="description">{{ item.description }}</div>
-                    </div>
-                    <div class="action-row">
-                        <ul class="action-list">
-                            <li class="item like clickable">
-                                <a href="" class="title-box">
-                                    <Icon color="#b2bac2" type="md-thumbs-up" />
-                                    <span class="count">222</span>
-                                </a>
-                            </li>
-                            <li class="item comment clickable">
-                                <a href="" class="title-box">
-                                    <Icon color="#b2bac2" type="md-text" />
-                                    <span class="count">77</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="lazy thumb thumb loaded" :style="{backgroundImage: 'url(' + item.url + ')',backgroundSize: 'cover',}"></div>
                 </div>
-                <div class="lazy thumb thumb loaded" :style="{backgroundImage: 'url(' + item.url + ')',backgroundSize: 'cover',}"></div>
             </div>
-        </div>
-    </Card>
-    <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="50%">
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <FormItem label="文章标题" prop="title">
-                <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
-            </FormItem>
-            <FormItem label="文章简介" prop="brief">
-                <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
-            </FormItem>
-        </Form>
-    </Modal>
+        </Card>
+        <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="50%">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+                <FormItem label="文章标题" prop="title">
+                    <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
+                </FormItem>
+                <FormItem label="文章简介" prop="brief">
+                    <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
+                </FormItem>
+                <FormItem label="文章内容" prop="content">
+                    <tinymceEditor></tinymceEditor>
+                </FormItem>
+            </Form>
+
+        </Modal>
+    </div>
 </div>
 </template>
 
 <script>
+import tinymceEditor from '../../components/tinymce-editor/index'
 export default {
+    components: {
+        tinymceEditor
+    },
     data() {
         return {
             list: [{
@@ -119,21 +129,29 @@ export default {
             ],
             view: "",
             modal1: false, //是否显示发帖对话框
-            formValidate: { //发帖表单数据对象
-                title: '',
-                brief: ''
+            formValidate: {
+                //发帖表单数据对象
+                title: "",
+                brief: "",
+                content: ""
             },
-            ruleValidate: { //发帖表单验证规则
+            ruleValidate: {
+                //发帖表单验证规则
                 title: [{
                     required: true,
-                    message: '文章标题不能为空',
-                    trigger: 'blur'
-                }],
+                    message: "文章标题不能为空",
+                    trigger: "blur",
+                }, ],
                 brief: [{
                     required: true,
-                    message: '文章简介不能为空',
-                    trigger: 'blur'
-                }]
+                    message: "文章简介不能为空",
+                    trigger: "blur",
+                }, ],
+                content: [{
+                    required: true,
+                    message: "文章内容不能为空",
+                    trigger: "blur",
+                }, ],
             }
         };
     },
@@ -144,16 +162,16 @@ export default {
         },
         postRead(id) {
             this.$router.push({
-                path: `/Community/postRead/${id}`
-            })
+                path: `/Community/postRead/${id}`,
+            });
         },
         ok() {
-            this.$Message.info('Clicked ok');
+            this.$Message.info("Clicked ok");
         },
         cancel() {
-            this.$Message.info('Clicked cancel');
-        }
-    }
+            this.$Message.info("Clicked cancel");
+        },
+    },
 };
 </script>
 
@@ -172,13 +190,17 @@ li {
 .post-btn {
     position: absolute;
     z-index: 9999;
-    top: .14rem;
-    right: .08rem;
+    top: 0.14rem;
+    right: 0.08rem;
+}
+
+/deep/.ivu-modal {
+    top: .6rem;
 }
 
 //图钉阴影
 /deep/.ivu-affix {
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.05);
 }
 
 .action-list>.item.clickable:hover {
@@ -345,16 +367,5 @@ li {
 
 .postList {
     @margin-auto();
-
-    .postListCard::-webkit-scrollbar {
-        width: 0.08rem;
-        height: 0.08rem;
-        background-color: #bce0f0;
-    }
-
-    .postListCard::-webkit-scrollbar-thumb {
-        background-color: #2d8cf0;
-        border-radius: 0.08rem;
-    }
 }
 </style>

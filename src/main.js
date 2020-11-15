@@ -10,6 +10,7 @@ import '@/icons'
 import Qs from 'qs'
 import { post, get, del, postStr } from './common/http.js'
 import './assets/css/global.less'
+
 // import $ from 'jquery'
 // Vue.prototype.$ = $;
 Vue.prototype.$post = post

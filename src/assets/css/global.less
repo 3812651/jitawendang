@@ -20,6 +20,7 @@ ul {
 a {
     text-decoration: none;
 }
+
 html::-webkit-scrollbar {
     width: 0.08rem;
     height: 0.08rem;
@@ -29,6 +30,28 @@ html::-webkit-scrollbar {
 html::-webkit-scrollbar-thumb {
     background-color: #2d8cf0;
     border-radius: 0.08rem;
+}
+
+//滚动条出现挤压页面宽度，影响布局的解决方案
+// html {
+//     overflow-y: scroll; //这是为了兼容ie8，不支持:root, vw
+// }
+
+// :root {
+//     overflow-y: auto;
+//     overflow-x: hidden;
+// }
+
+// :root body {
+//     position: absolute;
+// }
+
+// body {
+//     width: 100vw;
+//     overflow: hidden;
+// }
+html{
+    overflow-y: overlay;
 }
 @14px: {
     font-size: 0.14rem;
@@ -44,10 +67,24 @@ html::-webkit-scrollbar-thumb {
     flex-direction: column;
 }
 
+//弹框的滚动条样式width为0
+.ivu-modal-wrap::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+.ivu-modal-wrap {
+    -ms-overflow-style: none;
+}
+
+.ivu-modal-wrap {
+    overflow: -moz-scrollbars-none;
+}
+
 /*card公共样式*/
 .card {
     width: 100%;
     margin-top: 0.1rem;
+
     img {
         display: block;
     }
@@ -68,10 +105,11 @@ html::-webkit-scrollbar-thumb {
 
 /*滚动条end*/
 /*强调语句*/
-@border-left-color__success:{
+@border-left-color__success: {
     border-left-color: #409EFF;
 
 }
+
 p.tip {
     border-left-color: #f66;
 }
