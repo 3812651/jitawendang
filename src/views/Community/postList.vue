@@ -46,16 +46,17 @@
                 </div>
             </div>
         </Card>
-        <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="50%">
-            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-                <FormItem label="文章标题" prop="title">
+        <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="55%">
+            <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
+                <FormItem label="文章标题：" prop="title">
                     <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
                 </FormItem>
-                <FormItem label="文章简介" prop="brief">
+                <FormItem label="文章简介：" prop="brief">
                     <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
                 </FormItem>
-                <FormItem label="文章内容" prop="content">
-                    <tinymceEditor></tinymceEditor>
+                <div v-html="value"></div>
+                <FormItem label="文章内容：" prop="content">
+                    <tinymceEditor v-model="value"></tinymceEditor>
                 </FormItem>
             </Form>
 
@@ -128,6 +129,7 @@ export default {
                 },
             ],
             view: "",
+            value:'New Content',//tinymce双向绑定字符串
             modal1: false, //是否显示发帖对话框
             formValidate: {
                 //发帖表单数据对象
