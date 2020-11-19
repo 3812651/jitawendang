@@ -129,7 +129,7 @@ export default {
                 },
             ],
             view: "",
-            value:'New Content',//tinymce双向绑定字符串
+            value:'',//tinymce双向绑定字符串
             modal1: false, //是否显示发帖对话框
             formValidate: {
                 //发帖表单数据对象

@@ -1,24 +1,15 @@
 <template>
   <Card :bordered="false" class="login_card">
     <p slot="title">Sign in</p>
-    <Form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="ruleInline"
-      class="login_form"
-    >
+    <Form ref="loginForm" :model="loginForm" :rules="ruleInline" class="login_form">
       <FormItem prop="username">
         <Input type="text" v-model="loginForm.username" placeholder="Username">
-          <Icon type="ios-person-outline" slot="prepend"></Icon>
+        <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input
-          type="password"
-          v-model="loginForm.password"
-          placeholder="Password"
-        >
-          <Icon type="ios-lock-outline" slot="prepend"></Icon>
+        <Input type="password" v-model="loginForm.password" placeholder="Password">
+        <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem id="checkbox_item">
@@ -26,13 +17,7 @@
         <router-link to="/Login">忘记密码?</router-link>
       </FormItem>
       <FormItem>
-        <Button
-          type="primary"
-          @click="handleSubmit('loginForm')"
-          shape="circle"
-          long
-          >登录</Button
-        >
+        <Button type="primary" @click="handleSubmit('loginForm')" shape="circle" long>登录</Button>
       </FormItem>
       <p style="font-size: 14px">
         New to Here?
@@ -80,9 +65,8 @@ export default {
       view: "Register",
     };
   },
-  beforeCreate(){
-    window.localStorage.setItem("checked", true)
-
+  beforeCreate() {
+    window.localStorage.setItem("checked", true);
   },
   created() {
     console.log(window.localStorage.getItem("checked"));
@@ -95,7 +79,7 @@ export default {
     handleSubmit(name) {
       //是否记住登录信息
       window.localStorage.setItem("checked", this.checked);
-
+      console.log(this.loginForm)
       this.$refs[name].validate(async (valid) => {
         if (valid) {
           // console.log(this.loginForm);
@@ -104,12 +88,13 @@ export default {
             data: this.loginForm,
           });
           // console.log(res);
-          if (res) {
+          if (res.err_code == 0) {
             this.checked == true
               ? writeToken(res.token)
               : deleteToken(res.token);
             this.$Message.success("登录成功!");
             window.localStorage.setItem("token", res.token);
+            this.$router.push({path:'/Community/'})
           }
         } else {
           this.$Message.error("Fail!");

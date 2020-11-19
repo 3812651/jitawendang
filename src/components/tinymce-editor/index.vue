@@ -1,5 +1,6 @@
 <template>
-  <section id="tinymce-editor"></section>
+ <section id="tinymce-editor"></section>
+  
 </template>
 
 <script>
@@ -8,7 +9,11 @@
 import tinymce from "tinymce/tinymce";
 import "tinymce/themes/silver";
 import "tinymce/icons/default";
+// 引入富文本编辑器主题的js和css
+import 'tinymce/themes/silver/theme.min';
+import 'tinymce/skins/ui/oxide/skin.min.css';
 import "./langs/zh_CN.js";
+// 扩展插件
 import "tinymce/plugins/code";
 import "tinymce/plugins/lists";
 import "tinymce/plugins/advlist";
@@ -31,6 +36,7 @@ export default {
       selector: "#tinymce-editor",
       language: "zh_CN",
       height: 400,
+      skin_url: './skins/ui/oxide',
       menubar: "file edit format table",
       menu: {
         format: {
@@ -82,10 +88,5 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-.mce-content-body img, .mce-content-body table {
-    outline: 3px solid #b4d7ff; 
-}
-@import url("./skins/ui/oxide/skin.min.css");
 
-</style>
+
