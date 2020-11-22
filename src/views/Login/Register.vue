@@ -3,7 +3,7 @@
     <p slot="title">Register</p>
     <Form ref="registerForm" :model="registerForm" :rules="ruleInline">
       <FormItem prop="username">
-        <Input type="text" v-model="registerForm.username" placeholder="Username">
+        <Input type="text" v-model="registerForm.username" placeholder="用户名">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
@@ -11,7 +11,7 @@
         <Input
           type="password"
           v-model="registerForm.password"
-          placeholder="Password"
+          placeholder="密码"
         >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
@@ -20,7 +20,7 @@
         <Input
           type="password"
           v-model="confirm_password"
-          placeholder="confirm_password"
+          placeholder="重复密码"
         >
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>

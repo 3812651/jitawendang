@@ -9,7 +9,24 @@
         </div>
         <div class="content_text">
           <h1>分享知识才能走的更远</h1>
-          <p>The time that my journey takes is long and the way of it long.I came out on the chariot of the first gleam of light, and pursued my voyage through the wildernesses of worlds leaving my track on many a star and planet.</p>
+          <Timeline>
+            <TimelineItem color="green">
+              <Icon type="ios-settings-outline" slot="dot" color="#fff" />
+              <span>这里有最基础但最重要的知识</span>
+            </TimelineItem>
+            <TimelineItem>
+              <Icon type="ios-build-outline" slot="dot" color="#fff" />
+              <span>在这里你可以学会如何使用各种调音软件和录音设备</span>
+            </TimelineItem>
+            <TimelineItem>
+              <Icon type="ios-help-circle-outline" slot="dot" color="#fff" />
+              <span>如果你不懂的话请到社区求助</span>
+            </TimelineItem>
+            <TimelineItem>
+              <Icon type="md-bulb"  slot="dot" color="#fff" />
+              <span>相反如果你很厉害的话，请不要吝啬你的知识，你会因此学到更多!</span>
+            </TimelineItem>
+          </Timeline>
           <span class="rectangle"></span>
           <span class="circle"></span>
           <svg class="triangle" width="50px" height="50px">
@@ -36,16 +53,16 @@ export default {
     return {
       name: "Layout",
       view: "Login",
-      routePath:''
+      routePath: "",
     };
   },
   methods: {
     show(data) {
       this.view = data;
     },
-    goBack(){
-      this.$router.go(-1)
-    }
+    goBack() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
@@ -56,6 +73,9 @@ export default {
 @purple: #9c70ff;
 @size: 50px;
 @border-width: 8px;
+/deep/.ivu-timeline-item-head {
+  background-color: transparent;
+}
 .rectangle,
 .circle,
 .triangle {
@@ -149,6 +169,10 @@ export default {
       justify-content: space-around;
       .content_text {
         width: 50%;
+        font-family: "Helvetica Neue";
+      }
+      h1 {
+        margin-bottom: 0.2rem;
       }
     }
     .title {

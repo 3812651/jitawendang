@@ -3,12 +3,12 @@
     <p slot="title">Sign in</p>
     <Form ref="loginForm" :model="loginForm" :rules="ruleInline" class="login_form">
       <FormItem prop="username">
-        <Input type="text" v-model="loginForm.username" placeholder="Username">
+        <Input type="text" v-model="loginForm.username" placeholder="用户名">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="loginForm.password" placeholder="Password">
+        <Input type="password" v-model="loginForm.password" placeholder="密码">
         <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>

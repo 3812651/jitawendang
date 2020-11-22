@@ -18,6 +18,7 @@ Vue.prototype.$get = get
 Vue.prototype.$del = del
 Vue.prototype.$postStr = postStr
 Vue.prototype.$Qs = Qs
+Vue.prototype.$Spin = ViewUI.Spin
 Vue.use(VueParticles)
 Vue.use(ViewUI);
 Vue.prototype.$Message.config({

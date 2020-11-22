@@ -24,7 +24,6 @@
             </div>
             <i class="play_btn" v-show="btn_flag" @click="play(item.id,'btn_flag')"></i>
             <i class="pause_btn" v-show="!btn_flag" @click="btn_flag = !btn_flag"></i>
-            {{$store.state.history_id}}
           </li>
         </ul>
         <ul id="second_ul" v-show="checkIndex == 1">

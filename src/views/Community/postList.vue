@@ -13,7 +13,7 @@
         </Affix>
         <div class="itemList">
           <ul id="list-ui">
-            <li v-for="item in list" :key="item.id">
+            <li v-for="item in list" :key="item.id" id="list-li">
               <div class="context-box">
                 <div class="info-box">
                   <div class="meta-row">
@@ -48,6 +48,13 @@
               </div>
             </li>
           </ul>
+          <div class="bottom-tip loading" v-show="isLoading">
+            <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+            <div>Loading</div>
+          </div>
+          <div class="bottom-tip arrive-bottom" v-show="isBottom">
+            <p>嘿，已经没有数据了，快去发文章吧~~</p>
+          </div>
         </div>
       </Card>
       <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="55%">
@@ -142,17 +149,6 @@ export default {
         },
         {
           id: 6,
-          username: "掘金酱",
-          date: "2天前",
-          title: "掘友福利｜参与活动MySQL书免费送了！",
-          description:
-            "掘金社区畅销小册精彩积淀！《MySQL是怎样运行的：从根儿上理解MySQL》终于面世啦！",
-          url:
-            "https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/663b227f6f8b4f249ce44d9c6042c557~tplv-k3u1fbpfcp-watermark.image",
-          tag: "视唱练耳",
-        },
-        {
-          id: 7,
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
@@ -162,6 +158,8 @@ export default {
           tag: "乐理",
         },
       ],
+      isLoading: false, //显示加载数据提示
+      isBottom: false, //是否加载完数据
       view: "",
       value: "", //tinymce双向绑定字符串
       modal1: false, //是否显示发帖对话框
@@ -214,26 +212,50 @@ export default {
       this.$Message.info("Clicked cancel");
     },
     scroll() {
-      const rows = document.querySelectorAll(".itemList > ul > li");
+      let rows = document.querySelectorAll(".itemList > ul > li");
+      for (let [index, row] of rows.entries()) {
+        if (index < 7) {
+          row.style.setProperty("--progress", 1);
+        }
+      }
       const html = document.documentElement;
-
       document.addEventListener("scroll", () => {
         let scrolled = html.scrollTop / (html.scrollHeight - html.clientHeight);
 
-        let total = 1 / rows.length;
-
-        for (let [index, row] of rows.entries()) {
-          if (index > 4) {
+        let a = html.scrollHeight - (html.clientHeight + html.scrollTop); //和底部的距离
+        let n = this.list.length;
+        if (n < 10 && a < 10) {
+          this.isLoading = true;
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 1000);
+          setTimeout(() => {
+            this.list.push({
+              id: Math.random(),
+              username: "D2前端技术论坛",
+              date: "今天",
+              title: '奖品大升级！！！🏆 技术专题第七期 |万物皆可 Serverless继续ing！',
+              description: "前端热爱，技术无界，我们云端相聚",
+              url:
+                "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
+              tag: "视唱练耳",
+            });
+          }, 1500);
+        } else if (n>=10) {
+          this.isBottom = true;
+        }
+        let updateRows = document.querySelectorAll(".itemList > ul > li");
+        let total = 1 / updateRows.length;
+        for (let [index, row] of updateRows.entries()) {
+          if (index > 6) {
             let start = total * index;
             let end = total * (index + 1);
-            console.log(start,'--',end)
+            // console.log(end - start)
+            // console.log('row',index,start,'',end)
             let progress = (scrolled - start) / (end - start);
             if (progress >= 1) progress = 1;
             if (progress <= 0) progress = 0;
-
             row.style.setProperty("--progress", progress);
-          } else {
-            row.style.setProperty("--progress", 1);
           }
         }
       });
@@ -247,13 +269,51 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/publicVar.less";
+.spin-icon-load {
+  animation: ani-spin 1s linear infinite;
+}
+@keyframes ani-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/deep/.ivu-card-body {
+  padding-bottom: 0.6rem;
+}
+.bottom-tip {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.loading {
+  color: #2d8cf0;
+  vertical-align: middle;
+  text-align: center;
+}
+.arrive-bottom {
+  color: #c3cbd6;
+}
 #list-ui {
   overflow: hidden;
   --progress: 0;
-  li {
+  --color: 0.4;
+  .spin-icon-load {
+    position: absolute;
+    bottom: 20px;
+    z-index: 9999;
+  }
+  #list-li {
     transform: translateY(calc(60px * (1 - var(--progress))));
     opacity: var(--progress);
-    transition: .5s transform ease-in-out;
+    transition: 0.8s all ease-in-out;
+    background-color: rgba(0, 0, 0, calc(var(--color) - var(--progress)));
   }
 }
 ul {

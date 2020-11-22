@@ -78,7 +78,7 @@ export default {
     data() {
         return {
             isfollow: false,
-            avatar: 'https://mirror-gold-cdn.xitu.io/168e082aad182978be4?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1'
+            avatar: 'https://mirror-gold-cdn.xitu.io/16beee0a51718efb050?imageView2/1/w/100/h/100/q/85/format/webp/interlace/1'
         }
     },
     methods: {
