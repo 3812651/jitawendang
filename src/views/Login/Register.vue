@@ -89,6 +89,7 @@ export default {
             });
             if (res) {
               this.$Message.success("Success!");
+              this.$emit("view", this.view);
             }
           } else {
             this.$Message.error("两次密码不一致!");

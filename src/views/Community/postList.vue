@@ -65,6 +65,11 @@
           <FormItem label="文章简介：" prop="brief">
             <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
           </FormItem>
+          <FormItem label="文章标签：">
+            <Tag v-for="item in formValidate.tagArray" color="primary" type="border" :key="item" :name="item" closable @on-close="handleClose">{{ item}}</Tag>
+            <Input class="input-new-tag" v-model="inputValue" v-if="inputVisible" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm"></Input>
+            <Button class="button-new-tag" icon="ios-add" type="dashed" v-else size="small" @click="showInput">New Tag</Button>
+          </FormItem>
           <div v-html="value"></div>
           <FormItem label="文章内容：" prop="content">
             <tinymceEditor v-model="value"></tinymceEditor>
@@ -161,13 +166,17 @@ export default {
       isLoading: false, //显示加载数据提示
       isBottom: false, //是否加载完数据
       view: "",
-      value: "", //tinymce双向绑定字符串
+      value:
+        "待办：tinymce富文本框有一两个bug没修复，没看见需刷新页面、无图片拉伸框", //tinymce双向绑定字符串
       modal1: false, //是否显示发帖对话框
+      inputVisible: false, //是否显示标签输入框
+      inputValue: "", //标签输入框的值
       formValidate: {
         //发帖表单数据对象
         title: "",
         brief: "",
         content: "",
+        tagArray: ["视唱练耳", "乐理"], //文章标签数组
       },
       ruleValidate: {
         //发帖表单验证规则
@@ -196,6 +205,32 @@ export default {
     };
   },
   methods: {
+    // 确定标签输入框的内容
+    handleInputConfirm() {
+      const repeatTag = this.formValidate.tagArray.some((item) => {
+        return item === this.inputValue.trim();
+      });
+      if (this.inputValue.trim().length === 0 || repeatTag === true) {
+        this.inputVisible = false;
+        this.inputValue = "";
+      } else {
+        this.inputVisible = false;
+        this.formValidate.tagArray.push(this.inputValue.trim());
+      }
+    },
+    //删除标签;
+    handleClose(event, name) {
+      const index = this.formValidate.tagArray.indexOf(name);
+      this.formValidate.tagArray.splice(index, 1);
+    },
+    //展示标签输入框
+    showInput() {
+      this.inputVisible = true;
+      this.inputValue = "";
+      this.$nextTick(() => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
     menuChange(name) {
       this.view = name;
       console.log(this.view);
@@ -234,14 +269,15 @@ export default {
               id: Math.random(),
               username: "D2前端技术论坛",
               date: "今天",
-              title: '奖品大升级！！！🏆 技术专题第七期 |万物皆可 Serverless继续ing！',
+              title:
+                "奖品大升级！！！🏆 技术专题第七期 |万物皆可 Serverless继续ing！",
               description: "前端热爱，技术无界，我们云端相聚",
               url:
                 "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
               tag: "视唱练耳",
             });
           }, 1500);
-        } else if (n>=10) {
+        } else if (n >= 10) {
           this.isBottom = true;
         }
         let updateRows = document.querySelectorAll(".itemList > ul > li");
@@ -269,6 +305,19 @@ export default {
 
 <style lang="less" scoped>
 @import "../../assets/css/publicVar.less";
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  /deep/.ivu-input{
+  height: 24px;
+
+  }
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 24px;
+}
+
 .spin-icon-load {
   animation: ani-spin 1s linear infinite;
 }
