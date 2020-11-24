@@ -1,38 +1,24 @@
 <template>
   <Card :bordered="false" class="login_card">
-    <p slot="title">Register</p>
+    <p slot="title">注册</p>
     <Form ref="registerForm" :model="registerForm" :rules="ruleInline">
       <FormItem prop="username">
-        <Input type="text" v-model="registerForm.username" placeholder="用户名">
+        <Input type="text" v-model="registerForm.username" placeholder="用户名" clearable>
           <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input
-          type="password"
-          v-model="registerForm.password"
-          placeholder="密码"
-        >
+        <Input type="password" v-model="registerForm.password" placeholder="密码" password>
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input
-          type="password"
-          v-model="confirm_password"
-          placeholder="重复密码"
-        >
+        <Input type="password" v-model="confirm_password" placeholder="重复密码" password>
           <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem>
-        <Button
-          type="primary"
-          @click="handleSubmit('registerForm')"
-          shape="circle"
-          long
-          >注册</Button
-        >
+        <Button type="primary" @click="handleSubmit('registerForm')" shape="circle"  long>注册</Button>
       </FormItem>
       <p style="font-size: 14px">
         已有账号?
@@ -88,7 +74,7 @@ export default {
               data: this.registerForm,
             });
             if (res) {
-              this.$Message.success("Success!");
+              this.$Message.success("注册成功!");
               this.$emit("view", this.view);
             }
           } else {

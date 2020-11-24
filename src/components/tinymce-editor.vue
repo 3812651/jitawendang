@@ -1,18 +1,14 @@
 <template>
- <section id="tinymce-editor"></section>
-  
+  <section id="tinymce-editor" :key="tinymceFlag"></section>
 </template>
 
 <script>
-// import "./tinymce.min.js";
-// import "./themes/silver/theme.min.js";
 import tinymce from "tinymce/tinymce";
 import "tinymce/themes/silver";
 import "tinymce/icons/default";
 // 引入富文本编辑器主题的js和css
-import 'tinymce/themes/silver/theme.min';
-import 'tinymce/skins/ui/oxide/skin.min.css';
-import "./langs/zh_CN.js";
+import "tinymce/themes/silver/theme.min";
+import "tinymce/skins/ui/oxide/skin.min.css";
 // 扩展插件
 import "tinymce/plugins/code";
 import "tinymce/plugins/lists";
@@ -23,7 +19,7 @@ import "tinymce/plugins/autosave";
 import "tinymce/plugins/imagetools";
 import "tinymce/plugins/table";
 import "tinymce/plugins/searchreplace";
-import { postStr } from "../../common/http";
+import { postStr } from "../common/http";
 export default {
   props: {
     value: {
@@ -31,12 +27,19 @@ export default {
       default: "",
     },
   },
+  data() {
+    return {
+      tinymceFlag: 1,
+    };
+  },
   mounted() {
+    this.tinymceFlag++;
     tinymce.init({
       selector: "#tinymce-editor",
       language: "zh_CN",
+      language_url: "/tinymce/langs/zh_CN.js", // 语言包的路径
       height: 400,
-      skin_url: './skins/ui/oxide',
+      skin_url: "/tinymce/skins/ui/oxide",
       menubar: "file edit format table",
       menu: {
         format: {
@@ -84,6 +87,13 @@ export default {
         });
       },
     });
+  },
+  destroyed() {
+    // 销毁组件前销毁编辑器
+    tinymce.remove();
+  },
+  activated() {
+    this.tinymceFlag++;
   },
 };
 </script>

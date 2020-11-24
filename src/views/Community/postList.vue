@@ -70,19 +70,18 @@
             <Input class="input-new-tag" v-model="inputValue" v-if="inputVisible" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm"></Input>
             <Button class="button-new-tag" icon="ios-add" type="dashed" v-else size="small" @click="showInput">New Tag</Button>
           </FormItem>
-          <div v-html="value"></div>
+          <div v-html="formValidate.content"></div>
           <FormItem label="文章内容：" prop="content">
-            <tinymceEditor v-model="value"></tinymceEditor>
+            <tinymceEditor  v-model="formValidate.content"></tinymceEditor>
           </FormItem>
         </Form>
-
       </Modal>
     </div>
   </div>
 </template>
 
 <script>
-import tinymceEditor from "../../components/tinymce-editor/index";
+import tinymceEditor from "../../components/tinymce-editor";
 export default {
   components: {
     tinymceEditor,
@@ -166,8 +165,6 @@ export default {
       isLoading: false, //显示加载数据提示
       isBottom: false, //是否加载完数据
       view: "",
-      value:
-        "待办：tinymce富文本框有一两个bug没修复，没看见需刷新页面、无图片拉伸框", //tinymce双向绑定字符串
       modal1: false, //是否显示发帖对话框
       inputVisible: false, //是否显示标签输入框
       inputValue: "", //标签输入框的值
@@ -175,7 +172,7 @@ export default {
         //发帖表单数据对象
         title: "",
         brief: "",
-        content: "",
+        content: "待办：tinymce富文本框bug:切换组件回来不能编辑富文本",//tinymce双向绑定字符串
         tagArray: ["视唱练耳", "乐理"], //文章标签数组
       },
       ruleValidate: {

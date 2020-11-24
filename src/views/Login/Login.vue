@@ -1,14 +1,14 @@
 <template>
   <Card :bordered="false" class="login_card">
-    <p slot="title">Sign in</p>
+    <p slot="title">登录</p>
     <Form ref="loginForm" :model="loginForm" :rules="ruleInline" class="login_form">
       <FormItem prop="username">
-        <Input type="text" v-model="loginForm.username" placeholder="用户名">
+        <Input type="text" clearable v-model="loginForm.username" placeholder="用户名">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="loginForm.password" placeholder="密码">
+        <Input type="password" password v-model="loginForm.password" placeholder="密码">
         <Icon type="ios-lock-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
@@ -20,7 +20,7 @@
         <Button type="primary" @click="handleSubmit('loginForm')" shape="circle" long>登录</Button>
       </FormItem>
       <p style="font-size: 14px">
-        New to Here?
+        才发现这个新世界?
         <a href @click.prevent="sonclick">注册</a>
       </p>
     </Form>
@@ -61,15 +61,11 @@ export default {
           },
         ],
       },
-      checked: window.localStorage.getItem("checked"),
+      checked: Boolean(window.localStorage.getItem("checked")),
       view: "Register",
     };
   },
-  beforeCreate() {
-    window.localStorage.setItem("checked", true);
-  },
   created() {
-    console.log(window.localStorage.getItem("checked"));
     if (readToken()) {
       this.loginForm.username = jwtDecode(readToken()).username;
       this.loginForm.password = jwtDecode(readToken()).password;
@@ -77,24 +73,25 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      //是否记住登录信息
-      window.localStorage.setItem("checked", this.checked);
-      console.log(this.loginForm)
       this.$refs[name].validate(async (valid) => {
         if (valid) {
-          // console.log(this.loginForm);
           let res = await this.$post({
             url: api.login,
             data: this.loginForm,
           });
-          // console.log(res);
+          let localStorage = window.localStorage;
           if (res.err_code == 0) {
-            this.checked == true
-              ? writeToken(res.token)
-              : deleteToken(res.token);
+            //是否记住登录信息
+            if (this.checked === true) {
+              writeToken(res.token);
+              localStorage.setItem("checked", this.checked);
+            } else {
+              deleteToken(res.token);
+              localStorage.removeItem("checked");
+            }
             this.$Message.success("登录成功!");
-            window.localStorage.setItem("token", res.token);
-            this.$router.push({path:'/Community/'})
+            localStorage.setItem("token", res.token);
+            this.$router.push({ path: "/Community/" });
           }
         } else {
           this.$Message.error("Fail!");
@@ -115,6 +112,9 @@ export default {
   justify-content: center;
   align-items: center;
 };
+ /deep/.ivu-input-suffix{
+   z-index: 10;
+ }
 .login_form {
   position: relative;
 }
