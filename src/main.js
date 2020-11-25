@@ -10,7 +10,9 @@ import '@/icons'
 import Qs from 'qs'
 import { post, get, del, postStr } from './common/http.js'
 import './assets/css/global.less'
+import moment from 'moment'
 
+ Vue.prototype.$moment = moment;//格式化时间
 // import $ from 'jquery'
 // Vue.prototype.$ = $;
 Vue.prototype.$post = post

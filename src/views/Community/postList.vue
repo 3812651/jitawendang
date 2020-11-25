@@ -25,7 +25,7 @@
                   </div>
                   <div class="info-row title-row">
                     <a class="title" @click="postRead(item.id)">{{item.title}}</a>
-                    <div class="description">{{ item.description }}</div>
+                    <div class="briefInfo">{{ item.briefInfo }}</div>
                   </div>
                   <div class="action-row">
                     <ul class="action-list">
@@ -57,22 +57,22 @@
           </div>
         </div>
       </Card>
-      <Modal v-model="modal1" title="发帖" @on-ok="ok" @on-cancel="cancel" width="55%">
+      <Modal v-model="modal1" title="发表文章" @on-ok="submit" @on-cancel="cancel" width="55%">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
           <FormItem label="文章标题：" prop="title">
             <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
           </FormItem>
-          <FormItem label="文章简介：" prop="brief">
-            <Input v-model="formValidate.brief" placeholder="输入文章简介..."></Input>
+          <FormItem label="文章简介：" prop="briefInfo">
+            <Input v-model="formValidate.briefInfo" placeholder="输入文章简介..."></Input>
           </FormItem>
-          <FormItem label="文章标签：">
+          <FormItem label="文章标签：" prop="tag">
             <Tag v-for="item in formValidate.tagArray" color="primary" type="border" :key="item" :name="item" closable @on-close="handleClose">{{ item}}</Tag>
             <Input class="input-new-tag" v-model="inputValue" v-if="inputVisible" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm"></Input>
             <Button class="button-new-tag" icon="ios-add" type="dashed" v-else size="small" @click="showInput">New Tag</Button>
           </FormItem>
-          <div v-html="formValidate.content"></div>
+          <p v-html="formValidate.content">{{formValidate.content}}</p>
           <FormItem label="文章内容：" prop="content">
-            <tinymceEditor  v-model="formValidate.content"></tinymceEditor>
+            <tinymceEditor v-model="formValidate.content" :key="tinymceKey"></tinymceEditor>
           </FormItem>
         </Form>
       </Modal>
@@ -82,19 +82,21 @@
 
 <script>
 import tinymceEditor from "../../components/tinymce-editor";
+import api from "../../common/api.js";
 export default {
   components: {
     tinymceEditor,
   },
   data() {
     return {
+      //所有文章数据
       list: [
         {
           id: 0,
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
-          description: "前端热爱，技术无界，我们云端相聚",
+          briefInfo: "前端热爱，技术无界，我们云端相聚",
           url:
             "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
           tag: "视唱练耳",
@@ -104,7 +106,7 @@ export default {
           username: "掘金酱",
           date: "2天前",
           title: "掘友福利｜参与活动MySQL书免费送了！",
-          description:
+          briefInfo:
             "掘金社区畅销小册精彩积淀！《MySQL是怎样运行的：从根儿上理解MySQL》终于面世啦！",
           url:
             "https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/663b227f6f8b4f249ce44d9c6042c557~tplv-k3u1fbpfcp-watermark.image",
@@ -115,7 +117,7 @@ export default {
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
-          description: "前端热爱，技术无界，我们云端相聚",
+          briefInfo: "前端热爱，技术无界，我们云端相聚",
           url:
             "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
           tag: "乐理",
@@ -125,7 +127,7 @@ export default {
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
-          description: "前端热爱，技术无界，我们云端相聚",
+          briefInfo: "前端热爱，技术无界，我们云端相聚",
           url:
             "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
           tag: "视唱练耳",
@@ -135,7 +137,7 @@ export default {
           username: "掘金酱",
           date: "2天前",
           title: "掘友福利｜参与活动MySQL书免费送了！",
-          description:
+          briefInfo:
             "掘金社区畅销小册精彩积淀！《MySQL是怎样运行的：从根儿上理解MySQL》终于面世啦！",
           url:
             "https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/663b227f6f8b4f249ce44d9c6042c557~tplv-k3u1fbpfcp-watermark.image",
@@ -146,7 +148,7 @@ export default {
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
-          description: "前端热爱，技术无界，我们云端相聚",
+          briefInfo: "前端热爱，技术无界，我们云端相聚",
           url:
             "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
           tag: "乐理",
@@ -156,23 +158,24 @@ export default {
           username: "D2前端技术论坛",
           date: "14天前",
           title: "第十五届 D2 前端技术论坛",
-          description: "前端热爱，技术无界，我们云端相聚",
+          briefInfo: "前端热爱，技术无界，我们云端相聚",
           url:
             "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
           tag: "乐理",
         },
       ],
+      tinymceKey: 0, //动态的改变tinymce的key值,回来发帖框时重新渲染组件,以防路由切换回来的时候富文本框消失
       isLoading: false, //显示加载数据提示
       isBottom: false, //是否加载完数据
-      view: "",
+      view: "", //不同的分类
       modal1: false, //是否显示发帖对话框
       inputVisible: false, //是否显示标签输入框
       inputValue: "", //标签输入框的值
       formValidate: {
         //发帖表单数据对象
         title: "",
-        brief: "",
-        content: "待办：tinymce富文本框bug:切换组件回来不能编辑富文本",//tinymce双向绑定字符串
+        briefInfo: "",
+        content: "aa", //tinymce双向绑定字符串
         tagArray: ["视唱练耳", "乐理"], //文章标签数组
       },
       ruleValidate: {
@@ -184,7 +187,7 @@ export default {
             trigger: "blur",
           },
         ],
-        brief: [
+        briefInfo: [
           {
             required: true,
             message: "文章简介不能为空",
@@ -198,10 +201,70 @@ export default {
             trigger: "blur",
           },
         ],
+        tag: [
+          {
+            required: true,
+            message: "至少一个标签",
+          },
+        ],
       },
+      //查询文章数据对象
+      queryinfo: {
+        query: "",
+        pageNum: 1,
+        pageSize: 10,
+      },
+      total:0//文章的总数
     };
   },
   methods: {
+    //获取文章初始化数据
+    async init() {
+      this.queryinfo.pageNum = 1//每次查询的数据都是第一页
+      let res = await this.$get({
+        url: api.getPostList,
+        data: this.queryinfo,
+      });
+      if (res.err_code !== 0) {
+        this.$Message.error("Fail!");
+      } else {
+        this.$Message.success("获取所有文章成功");
+        this.list = res.data;
+        for(let val of this.list){
+          val.url = 'https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image'
+          val.tag = val.tagArray.join('.')
+          let startTime = this.$moment(val.create_time,"YYYY-MM-DD");//文章发表时间
+          let endTime = this.$moment(new Date(),"YYYY-MM-DD"); //当前时间
+          
+          val.date =endTime.diff(startTime,'days') + '天前'
+        }
+        this.total = res.total
+        //设置progress值为1,不然因为没有滚动导致li不可见
+        this.$nextTick(() => {
+          let rows = document.querySelectorAll(".itemList > ul > li");
+          for (let [index, row] of rows.entries()) {
+            if (index < 10) {
+              row.style.setProperty("--progress", 1);
+            }
+          }
+        });
+      }
+    },
+    async submit() {
+      let res = await this.$post({
+        url: api.posting,
+        data: this.formValidate,
+      });
+      if (res.err_code !== 0) {
+        this.$Message.error("Fail!");
+      } else {
+        this.$Message.success("发表文章成功");
+        this.init();
+      }
+    },
+    cancel() {
+      this.$Message.info("Clicked cancel");
+    },
     // 确定标签输入框的内容
     handleInputConfirm() {
       const repeatTag = this.formValidate.tagArray.some((item) => {
@@ -237,65 +300,60 @@ export default {
         path: `/Community/postRead/${id}`,
       });
     },
-    ok() {
-      this.$Message.info("Clicked ok");
-    },
-    cancel() {
-      this.$Message.info("Clicked cancel");
-    },
     scroll() {
-      let rows = document.querySelectorAll(".itemList > ul > li");
-      for (let [index, row] of rows.entries()) {
-        if (index < 7) {
-          row.style.setProperty("--progress", 1);
-        }
-      }
       const html = document.documentElement;
-      document.addEventListener("scroll", () => {
-        let scrolled = html.scrollTop / (html.scrollHeight - html.clientHeight);
-
-        let a = html.scrollHeight - (html.clientHeight + html.scrollTop); //和底部的距离
-        let n = this.list.length;
-        if (n < 10 && a < 10) {
-          this.isLoading = true;
-          setTimeout(() => {
-            this.isLoading = false;
-          }, 1000);
-          setTimeout(() => {
-            this.list.push({
-              id: Math.random(),
-              username: "D2前端技术论坛",
-              date: "今天",
-              title:
-                "奖品大升级！！！🏆 技术专题第七期 |万物皆可 Serverless继续ing！",
-              description: "前端热爱，技术无界，我们云端相聚",
-              url:
-                "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image",
-              tag: "视唱练耳",
+      let beforeScrollTop = html.scrollTop; //页面刚进来的滚动条位置
+      document.addEventListener("scroll", async () => {
+        let afterScrollTop = html.scrollTop;
+        let delta = afterScrollTop - beforeScrollTop; //滚动前后的距离,大于0证明滚动条向下
+        if (delta > 0) {//如果滚动条方向往下并触底就开始请求数据
+          let scrolled = html.scrollTop / (html.scrollHeight - html.clientHeight);//滚动的位置,从0到1
+          // let a = html.scrollHeight - (html.clientHeight + html.scrollTop); //和底部的距离
+          let n = this.list.length; //文章的总数
+          if (scrolled >0.999 && n < this.total) {
+            // console.log('update')
+            this.isLoading = true;
+            this.queryinfo.pageNum = 2
+            let res = await this.$get({
+              url: api.getPostList,
+              data: this.queryinfo,
             });
-          }, 1500);
-        } else if (n >= 10) {
-          this.isBottom = true;
-        }
-        let updateRows = document.querySelectorAll(".itemList > ul > li");
-        let total = 1 / updateRows.length;
-        for (let [index, row] of updateRows.entries()) {
-          if (index > 6) {
-            let start = total * index;
-            let end = total * (index + 1);
-            // console.log(end - start)
-            // console.log('row',index,start,'',end)
-            let progress = (scrolled - start) / (end - start);
-            if (progress >= 1) progress = 1;
-            if (progress <= 0) progress = 0;
-            row.style.setProperty("--progress", progress);
+            if (res.err_code !== 0) {
+              this.$Message.error("Fail!");
+            } else {
+              this.$Message.success("滚动触底并获取所有文章成功");
+              this.isLoading = false;
+              // console.log(res.data);
+              for(let val of res.data){
+                console.log(val)
+                this.list.push(val)
+              }
+            }
+          } else if (n >= this.total) {
+            this.isBottom = true;
+          }
+          let updateRows = document.querySelectorAll(".itemList > ul > li");
+          let total = 1 / updateRows.length;
+          for (let [index, row] of updateRows.entries()) {
+            if (index > 9) {
+              //如果是大于文章总数就开始加动画效果
+              let start = total * index;
+              let end = total * (index + 1);
+              let progress = (scrolled - start) / (end - start);
+              if (progress >= 1) progress = 1;
+              if (progress <= 0) progress = 0;
+              row.style.setProperty("--progress", progress);
+            }
           }
         }
+        beforeScrollTop = afterScrollTop;
       });
     },
   },
   mounted() {
+    this.init();
     this.scroll();
+    this.tinymceKey++;
   },
 };
 </script>
@@ -304,14 +362,11 @@ export default {
 @import "../../assets/css/publicVar.less";
 .input-new-tag {
   width: 90px;
-  margin-left: 10px;
-  /deep/.ivu-input{
-  height: 24px;
-
+  /deep/.ivu-input {
+    height: 24px;
   }
 }
 .button-new-tag {
-  margin-left: 10px;
   height: 24px;
 }
 
@@ -501,7 +556,7 @@ li {
       //     color: #909090;
       // }
 
-      .description {
+      .briefInfo {
         font-size: 13px;
         color: #b2bac2;
         white-space: nowrap;

@@ -5,7 +5,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 let baseUrl
 
-process.env.NODE_ENV === 'development' ? baseUrl = "http://121.196.34.221:3000/" : baseUrl = "http://121.196.34.221:3000/"
+process.env.NODE_ENV === 'development' ? baseUrl = "http://localhost:3000/" : baseUrl = "https://121.196.34.221:3000/"
     // axios 配置
 axios.defaults.timeout = 5000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'

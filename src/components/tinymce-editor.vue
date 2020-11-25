@@ -1,5 +1,5 @@
 <template>
-  <section id="tinymce-editor" :key="tinymceFlag"></section>
+  <section id="tinymce-editor"></section>
 </template>
 
 <script>
@@ -27,15 +27,11 @@ export default {
       default: "",
     },
   },
-  data() {
-    return {
-      tinymceFlag: 1,
-    };
-  },
   mounted() {
-    this.tinymceFlag++;
     tinymce.init({
       selector: "#tinymce-editor",
+      auto_focus: true, //进入自动聚焦
+      placeholder:'编辑时不要刷新页面,以防数据丢失',
       language: "zh_CN",
       language_url: "/tinymce/langs/zh_CN.js", // 语言包的路径
       height: 400,
@@ -88,15 +84,23 @@ export default {
       },
     });
   },
-  destroyed() {
+  beforeDestroy() {
     // 销毁组件前销毁编辑器
     tinymce.remove();
-  },
-  activated() {
-    this.tinymceFlag++;
+    // for (let i = tinymce.editors.length - 1; i > -1; i--) {
+    //   let ed_id = tinymce.editors[i].id;
+    //   tinymce.execCommand("mceRemoveEditor", true, ed_id);
+    // }
   },
 };
 </script>
-
+<style lang="less" scoped>
+.mce-edit-area {
+  label {
+    color: #a9a9a9 !important; /* Override text color */
+    left: 5px !important; /* Override left positioning */
+  }
+}
+</style>
 
 
