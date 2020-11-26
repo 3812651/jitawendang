@@ -70,7 +70,6 @@
             <Input class="input-new-tag" v-model="inputValue" v-if="inputVisible" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm"></Input>
             <Button class="button-new-tag" icon="ios-add" type="dashed" v-else size="small" @click="showInput">New Tag</Button>
           </FormItem>
-          <p v-html="formValidate.content">{{formValidate.content}}</p>
           <FormItem label="文章内容：" prop="content">
             <tinymceEditor v-model="formValidate.content" :key="tinymceKey"></tinymceEditor>
           </FormItem>
@@ -232,7 +231,7 @@ export default {
         this.list = res.data;
         for(let val of this.list){
           val.url = 'https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image'
-          val.tag = val.tagArray.join('.')
+          val.tag = val.tagArray.join(' / ')
           let startTime = this.$moment(val.create_time,"YYYY-MM-DD");//文章发表时间
           let endTime = this.$moment(new Date(),"YYYY-MM-DD"); //当前时间
           
