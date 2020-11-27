@@ -31,11 +31,12 @@ export default {
     tinymce.init({
       selector: "#tinymce-editor",
       auto_focus: true, //进入自动聚焦
-      placeholder:'编辑时不要刷新页面,以防数据丢失',
+      placeholder:'编辑时不要刷新、跳转页面,以防数据丢失',
       language: "zh_CN",
       language_url: "/tinymce/langs/zh_CN.js", // 语言包的路径
       height: 400,
       skin_url: "/tinymce/skins/ui/oxide",
+      content_css: '/tinymce/skins/content/default/content.css',
       menubar: "file edit format table",
       menu: {
         format: {
@@ -56,7 +57,7 @@ export default {
         let file = blobInfo.blob();
         formData.append("file", file, file.name);
         let res = await postStr({
-          url: "http://localhost:3000/community/posting/uploadImg",
+          url: "https://www.yunduanzhishi.xyz:3001/community/posting/uploadImg",
           data: formData,
         });
         if (res.err_code != 0) {
@@ -94,13 +95,3 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped>
-.mce-edit-area {
-  label {
-    color: #a9a9a9 !important; /* Override text color */
-    left: 5px !important; /* Override left positioning */
-  }
-}
-</style>
-
-

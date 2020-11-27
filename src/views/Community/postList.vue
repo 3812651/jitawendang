@@ -57,7 +57,7 @@
           </div>
         </div>
       </Card>
-      <Modal v-model="modal1" title="发表文章" @on-ok="submit" @on-cancel="cancel" width="55%">
+      <Modal v-model="modal1" title="发表文章" width="55%">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
           <FormItem label="文章标题：" prop="title">
             <Input v-model="formValidate.title" placeholder="输入文章标题..."></Input>
@@ -65,15 +65,19 @@
           <FormItem label="文章简介：" prop="briefInfo">
             <Input v-model="formValidate.briefInfo" placeholder="输入文章简介..."></Input>
           </FormItem>
-          <FormItem label="文章标签：" prop="tag">
+          <FormItem label="文章标签：" prop="tagArray">
             <Tag v-for="item in formValidate.tagArray" color="primary" type="border" :key="item" :name="item" closable @on-close="handleClose">{{ item}}</Tag>
             <Input class="input-new-tag" v-model="inputValue" v-if="inputVisible" ref="saveTagInput" @keyup.enter.native="handleInputConfirm" @on-blur="handleInputConfirm"></Input>
             <Button class="button-new-tag" icon="ios-add" type="dashed" v-else size="small" @click="showInput">New Tag</Button>
           </FormItem>
           <FormItem label="文章内容：" prop="content">
-            <tinymceEditor v-model="formValidate.content" :key="tinymceKey"></tinymceEditor>
+            <tinymceEditor ref="editor" v-model="formValidate.content" :key="tinymceKey"></tinymceEditor>
           </FormItem>
         </Form>
+        <div slot="footer">
+          <Button type="text" @click="cancel">取消</Button>
+          <Button type="primary" @click="submit()">确定</Button>
+        </div>
       </Modal>
     </div>
   </div>
@@ -174,7 +178,7 @@ export default {
         //发帖表单数据对象
         title: "",
         briefInfo: "",
-        content: "aa", //tinymce双向绑定字符串
+        content: "", //tinymce双向绑定字符串
         tagArray: ["视唱练耳", "乐理"], //文章标签数组
       },
       ruleValidate: {
@@ -200,7 +204,7 @@ export default {
             trigger: "blur",
           },
         ],
-        tag: [
+        tagArray: [
           {
             required: true,
             message: "至少一个标签",
@@ -213,13 +217,13 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
-      total:0//文章的总数
+      total: 0, //文章的总数
     };
   },
   methods: {
     //获取文章初始化数据
     async init() {
-      this.queryinfo.pageNum = 1//每次查询的数据都是第一页
+      this.queryinfo.pageNum = 1; //每次查询的数据都是第一页
       let res = await this.$get({
         url: api.getPostList,
         data: this.queryinfo,
@@ -229,15 +233,13 @@ export default {
       } else {
         this.$Message.success("获取所有文章成功");
         this.list = res.data;
-        for(let val of this.list){
-          val.url = 'https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image'
-          val.tag = val.tagArray.join(' / ')
-          let startTime = this.$moment(val.create_time,"YYYY-MM-DD");//文章发表时间
-          let endTime = this.$moment(new Date(),"YYYY-MM-DD"); //当前时间
-          
-          val.date =endTime.diff(startTime,'days') + '天前'
+        for (let val of this.list) {
+          val.url =
+            "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image";
+          val.tag = val.tagArray.join(" / ");
+          val.date = this.$moment(val.create_time, "YYYY-MM-DD").fromNow();
         }
-        this.total = res.total
+        this.total = res.total;
         //设置progress值为1,不然因为没有滚动导致li不可见
         this.$nextTick(() => {
           let rows = document.querySelectorAll(".itemList > ul > li");
@@ -250,18 +252,35 @@ export default {
       }
     },
     async submit() {
-      let res = await this.$post({
-        url: api.posting,
-        data: this.formValidate,
-      });
-      if (res.err_code !== 0) {
-        this.$Message.error("Fail!");
+      let token = window.localStorage.getItem("token");
+      if (token == null) {
+        this.$Message.error("请先登录");
       } else {
-        this.$Message.success("发表文章成功");
-        this.init();
+        if (this.formValidate.tagArray.length == 0) {
+          this.$Message.error("至少一个标签");
+        } else {
+          let res = await this.$post({
+            url: api.posting,
+            data: this.formValidate,
+          });
+          if (res.err_code !== 0) {
+            this.$Message.error("Fail!");
+          } else {
+            this.$Message.success("发表文章成功");
+            this.modal1 = false;
+            this.init();
+            //初始化数据
+            window.tinymce.get("tinymce-editor").setContent(""); //清空tinymce富文本框内容
+            for (let key in this.formValidate) {
+              this.formValidate[key] = "";
+            }
+            this.formValidate.tagArray = ["视唱练耳", "乐理"]; //tagArray默认数据
+          }
+        }
       }
     },
     cancel() {
+      this.modal1 = false;
       this.$Message.info("Clicked cancel");
     },
     // 确定标签输入框的内容
@@ -305,14 +324,16 @@ export default {
       document.addEventListener("scroll", async () => {
         let afterScrollTop = html.scrollTop;
         let delta = afterScrollTop - beforeScrollTop; //滚动前后的距离,大于0证明滚动条向下
-        if (delta > 0) {//如果滚动条方向往下并触底就开始请求数据
-          let scrolled = html.scrollTop / (html.scrollHeight - html.clientHeight);//滚动的位置,从0到1
+        if (delta > 0) {
+          //如果滚动条方向往下并触底就开始请求数据
+          let scrolled =
+            html.scrollTop / (html.scrollHeight - html.clientHeight); //滚动的位置,从0到1
           // let a = html.scrollHeight - (html.clientHeight + html.scrollTop); //和底部的距离
           let n = this.list.length; //文章的总数
-          if (scrolled >0.999 && n < this.total) {
+          if (scrolled > 0.999 && n < this.total) {
             // console.log('update')
             this.isLoading = true;
-            this.queryinfo.pageNum = 2
+            this.queryinfo.pageNum = 2;
             let res = await this.$get({
               url: api.getPostList,
               data: this.queryinfo,
@@ -322,10 +343,16 @@ export default {
             } else {
               this.$Message.success("滚动触底并获取所有文章成功");
               this.isLoading = false;
-              // console.log(res.data);
-              for(let val of res.data){
-                console.log(val)
-                this.list.push(val)
+
+              for (let val of res.data) {
+                val.url =
+                  "https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c2d46d6dda454b159d0eec33cfc28bc4~tplv-k3u1fbpfcp-watermark.image";
+                val.tag = val.tagArray.join(" / ");
+                val.date = this.$moment(
+                  val.create_time,
+                  "YYYY-MM-DD"
+                ).fromNow();
+                this.list.push(val);
               }
             }
           } else if (n >= this.total) {
@@ -433,7 +460,7 @@ li {
 }
 
 /deep/.ivu-modal {
-  top: 0.6rem;
+  top: 0.17rem;
 }
 
 //图钉阴影

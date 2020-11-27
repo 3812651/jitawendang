@@ -11,10 +11,12 @@ import Qs from 'qs'
 import { post, get, del, postStr } from './common/http.js'
 import './assets/css/global.less'
 import moment from 'moment'
+moment.locale('zh-cn');//时间格式化组件使用中文
 
- Vue.prototype.$moment = moment;//格式化时间
+
 // import $ from 'jquery'
 // Vue.prototype.$ = $;
+Vue.prototype.$moment = moment;//格式化时间
 Vue.prototype.$post = post
 Vue.prototype.$get = get
 Vue.prototype.$del = del
