@@ -22,8 +22,10 @@
                 <svg-icon :iconClass="item.sketch" class="svg_default" />
               </div>
             </div>
-            <i class="play_btn" v-show="btn_flag" @click="play(item.id,'btn_flag')"></i>
-            <i class="pause_btn" v-show="!btn_flag" @click="btn_flag = !btn_flag"></i>
+            <transition mode="out-in" name="slide-fade">
+              <i class="play_btn" v-if="btn_flag" @click="play(item.id,'btn_flag')" key="play"></i>
+              <i class="pause_btn" v-else @click="btn_flag = !btn_flag" key="pause"></i>
+            </transition>
           </li>
         </ul>
         <ul id="second_ul" v-show="checkIndex == 1">
@@ -58,20 +60,20 @@
         <p>{{ item.name }}</p>
       </div>
     </div>
-    <div class="countdown-box" v-show="countdown_flg">
+    <!--<div class="countdown-box" v-show="countdown_flg">
       <countdown ref="countdown"></countdown>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import $ from "jquery";
 import { debounce } from "../js/debounce.js";
-import countdown from "../components/countdown";
+// import countdown from "../components/countdown";
 export default {
-  components: {
-    countdown,
-  },
+  // components: {
+  //   countdown,
+  // },
   data() {
     return {
       checkIndex: 0,
@@ -214,9 +216,11 @@ export default {
     };
   },
   methods: {
-    play(id,flag) {
+    play(id, flag) {
       //播放音频
-      flag == 'btn_flag'?this.btn_flag = !this.btn_flag:this.btn_flag1 = !this.btn_flag1
+      flag == "btn_flag"
+        ? (this.btn_flag = !this.btn_flag)
+        : (this.btn_flag1 = !this.btn_flag1);
       let className = $(`#${id}`).attr("class");
       if (className == "li_active_center") {
         this.countdown_flg = true;
@@ -504,16 +508,13 @@ export default {
   opacity: 0;
 }
 
-.isActive:after {
-  border: 5px solid #d3d4d9;
-}
-
 .isActive:before {
   animation: wave-animate 1s ease-in-out;
 }
 
 .isActive:after {
   animation: wave-animate 1s 0.2s ease-in-out;
+  border: 5px solid #d3d4d9;
 }
 
 @keyframes wave-animate {
@@ -530,7 +531,21 @@ export default {
   }
 }
 
-/*做li的动效和暂停、播放按钮的切换*/
+/*li的动效和暂停、播放按钮的切换*/
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter {
+  transform: translateX(-10px);
+  opacity: 0;
+}
+.slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
 .card_box {
   li {
     transition: all 0.4s ease;
@@ -538,8 +553,7 @@ export default {
     .pause_btn {
       width: 50px;
       height: 50px;
-      opacity: 0;
-      transition: opacity 0.75s;
+      display: none;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -552,8 +566,7 @@ export default {
     .play_btn {
       width: 50px;
       height: 50px;
-      opacity: 0;
-      transition: opacity 0.75s;
+      display: none;
       position: absolute;
       top: 50%;
       left: 50%;
@@ -563,20 +576,18 @@ export default {
       border-radius: 50%;
     }
   }
-
-  .li_active_center:hover .pause_btn {
-    opacity: 1;
-    transition: opacity 0.75s;
-  }
-
-  .li_active_center:hover .play_btn {
-    opacity: 1;
-    transition: opacity 0.75s;
-  }
-
-  // li:hover {
-  //   transform: scale(1.1, 1.1);
+  // .li_active_center {
+  //   .pause_btn,
+  //   .play_btn {
+  //     opacity: 0.3;
+  //   }
   // }
+  .li_active_center:hover {
+    .pause_btn,
+    .play_btn {
+      display: block;
+    }
+  }
 }
 
 /*做li的动效和暂停、播放按钮的切换----end*/
